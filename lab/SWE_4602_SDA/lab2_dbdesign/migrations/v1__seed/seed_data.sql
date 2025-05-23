@@ -40,7 +40,7 @@ INSERT INTO item (name, item_type_id, rarity, base_value, description) VALUES
 -- Quests
 INSERT INTO quest (name, description, reward_experience) VALUES
 ('Rescue the Oracle', 'Save the oracle from danger.', 300),
-('The Titan’s Vault', 'Explore the ancient vault.', 450),
+('The Titans Vault', 'Explore the ancient vault.', 450),
 ('Secrets of Zaun', 'Investigate chemical threats.', 350),
 ('Defend the Wall', 'Hold off Noxian invaders.', 500),
 ('Iceborn Trial', 'Survive the northern test.', 600),

@@ -27,7 +27,6 @@ END;
 $$;
 
 -- (character_id, quest_id, rating_value)
-CALL add_quest_rating(3, 2, 4);
 CALL add_quest_rating(1, 2, 3); -- This will work and add a rating even though this character has not completed the quest, as the procedure does not check for completion, YET. That restriction has been added in the v6 migration. So after the v6 migration, we have another test case, with the (6, 4, 3) parameters, which will return an error if the quest is not completed. Test that in the terminal.
 
 
