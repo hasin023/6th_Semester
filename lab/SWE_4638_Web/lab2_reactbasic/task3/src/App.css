@@ -1,0 +1,116 @@
+#root {
+  margin: 0 auto;
+  padding: 4rem;
+}
+
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.profile-card {
+  width: 280px;
+  background-color: #f8f8f8;
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.profile-header {
+  margin-bottom: 20px;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+}
+
+.job-title-badge {
+  display: inline-block;
+  background-color: #8b5cf6;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.company-name {
+  color: #666;
+  font-size: 14px;
+  margin: 8px 0 0 0;
+  font-weight: 500;
+}
+
+.profile-bio {
+  margin: 20px 0 30px 0;
+}
+
+.profile-bio p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+  text-align: center;
+}
+
+.profile-skills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.skill-tag {
+  background-color: #e5e7eb;
+  color: #374151;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.profile-avatar {
+  margin: 30px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-avatar img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #333;
+}
+
+.profile-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.contact-btn {
+  color: #8b5cf6;
+  border: transparent 1px solid;
+  padding: 12px 32px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.contact-btn:hover {
+  border: #7c3aed 1px solid;
+}
