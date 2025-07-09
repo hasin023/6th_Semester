@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DocumentFragment and DOM Operations</title>
+    <style>
+      .container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        font-family: Arial, sans-serif;
+      }
+
+      .demo-section {
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+      }
+
+      .demo-section h3 {
+        color: #495057;
+        margin-bottom: 1rem;
+      }
+
+      .list-container {
+        background: white;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        padding: 1rem;
+        margin: 1rem 0;
+        min-height: 200px;
+      }
+
+      .list-item {
+        padding: 0.5rem;
+        margin: 0.25rem 0;
+        background: #e9ecef;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .list-item:nth-child(even) {
+        background: #f8f9fa;
+      }
+
+      .controls {
+        display: flex;
+        gap: 0.5rem;
+        margin: 1rem 0;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background: #007bff;
+        color: white;
+      }
+      .btn-success {
+        background: #28a745;
+        color: white;
+      }
+      .btn-warning {
+        background: #ffc107;
+        color: #212529;
+      }
+      .btn-danger {
+        background: #dc3545;
+        color: white;
+      }
+      .btn-info {
+        background: #17a2b8;
+        color: white;
+      }
+
+      .btn:hover {
+        opacity: 0.8;
+        transform: translateY(-2px);
+      }
+
+      .input-group {
+        display: flex;
+        gap: 0.5rem;
+        margin: 1rem 0;
+      }
+
+      .input-group input {
+        flex: 1;
+        padding: 0.5rem;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+      }
+
+      .performance-info {
+        background: #d1ecf1;
+        border: 1px solid #bee5eb;
+        border-radius: 4px;
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+
+      .performance-metric {
+        display: inline-block;
+        margin: 0.25rem 0.5rem;
+        padding: 0.25rem 0.5rem;
+        background: #17a2b8;
+        color: white;
+        border-radius: 4px;
+        font-size: 0.9rem;
+      }
+
+      .code-example {
+        background: #2d3748;
+        color: #e2e8f0;
+        padding: 1rem;
+        border-radius: 4px;
+        font-family: "Courier New", monospace;
+        font-size: 0.9rem;
+        overflow-x: auto;
+        margin: 1rem 0;
+      }
+
+      .highlight {
+        background: #ffeaa7;
+        padding: 2px 4px;
+        border-radius: 2px;
+        animation: highlight 2s ease-out;
+      }
+
+      @keyframes highlight {
+        from {
+          background: #ffeaa7;
+        }
+        to {
+          background: transparent;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>DocumentFragment and Advanced DOM Operations</h1>
+
+      <!-- DocumentFragment Demo -->
+      <div class="demo-section">
+        <h3>1. DocumentFragment Performance Demo</h3>
+        <p>
+          Compare the performance of adding elements individually vs. using
+          DocumentFragment.
+        </p>
+
+        <div class="controls">
+          <button class="btn btn-primary" onclick="addItemsIndividually()">
+            Add 1000 Items (Individual)
+          </button>
+          <button class="btn btn-success" onclick="addItemsWithFragment()">
+            Add 1000 Items (Fragment)
+          </button>
+          <button class="btn btn-danger" onclick="clearList('fragmentList')">
+            Clear List
+          </button>
+        </div>
+
+        <div class="performance-info" id="performanceInfo">
+          Performance metrics will appear here...
+        </div>
+
+        <div class="list-container" id="fragmentList">
+          <p>Items will appear here...</p>
+        </div>
+      </div>
+
+      <!-- DOM Manipulation Demo -->
+      <div class="demo-section">
+        <h3>2. insertBefore, removeChild, replaceChild Demo</h3>
+        <p>Demonstrate precise DOM manipulation methods.</p>
+
+        <div class="input-group">
+          <input type="text" id="itemInput" placeholder="Enter item text..." />
+          <button class="btn btn-primary" onclick="addItem()">Add Item</button>
+        </div>
+
+        <div class="controls">
+          <button class="btn btn-info" onclick="insertAtBeginning()">
+            Insert at Beginning
+          </button>
+          <button class="btn btn-warning" onclick="insertAtPosition()">
+            Insert at Position 3
+          </button>
+          <button class="btn btn-success" onclick="moveItems()">
+            Move Items Around
+          </button>
+          <button
+            class="btn btn-danger"
+            onclick="clearList('manipulationList')"
+          >
+            Clear List
+          </button>
+        </div>
+
+        <div class="list-container" id="manipulationList">
+          <div class="list-item">
+            <span>Item 1 (Click to select)</span>
+            <div>
+              <button class="btn btn-warning" onclick="editItem(this)">
+                Edit
+              </button>
+              <button class="btn btn-danger" onclick="deleteItem(this)">
+                Delete
+              </button>
+            </div>
+          </div>
+          <div class="list-item">
+            <span>Item 2 (Click to select)</span>
+            <div>
+              <button class="btn btn-warning" onclick="editItem(this)">
+                Edit
+              </button>
+              <button class="btn btn-danger" onclick="deleteItem(this)">
+                Delete
+              </button>
+            </div>
+          </div>
+          <div class="list-item">
+            <span>Item 3 (Click to select)</span>
+            <div>
+              <button class="btn btn-warning" onclick="editItem(this)">
+                Edit
+              </button>
+              <button class="btn btn-danger" onclick="deleteItem(this)">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event Propagation Demo -->
+      <div class="demo-section">
+        <h3>3. Event Propagation Control</h3>
+        <p>Demonstrate preventDefault() and stopPropagation() methods.</p>
+
+        <div class="controls">
+          <button class="btn btn-primary" onclick="togglePrevention()">
+            Toggle Prevention
+          </button>
+          <button class="btn btn-success" onclick="togglePropagation()">
+            Toggle Propagation
+          </button>
+          <button class="btn btn-info" onclick="clearEventLog()">
+            Clear Log
+          </button>
+        </div>
+
+        <div class="event-demo" id="eventDemo">
+          <div class="parent-element" onclick="logEvent('parent', event)">
+            <strong>Parent Element</strong>
+            <div class="child-element" onclick="logEvent('child', event)">
+              <strong>Child Element</strong>
+              <a href="#" onclick="logEvent('link', event)"
+                >Link (default: navigate)</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="code-example" id="eventLog">
+          Event log will appear here...
+        </div>
+      </div>
+
+      <!-- Code Examples -->
+      <div class="demo-section">
+        <h3>4. Code Examples</h3>
+        <div class="code-example">
+          <pre>
+// DocumentFragment Example
+const fragment = document.createDocumentFragment();
+for (let i = 0; i < 1000; i++) {
+    const item = document.createElement('div');
+    item.textContent = `Item ${i}`;
+    fragment.appendChild(item);
+}
+container.appendChild(fragment); // Single DOM operation
+
+// insertBefore Example
+const newItem = document.createElement('div');
+const referenceItem = container.children[2];
+container.insertBefore(newItem, referenceItem);
+
+// replaceChild Example
+const newNode = document.createElement('div');
+const oldNode = container.children[0];
+container.replaceChild(newNode, oldNode);
+
+// Event Prevention
+function handleClick(event) {
+    event.preventDefault(); // Prevents default behavior
+    event.stopPropagation(); // Stops event bubbling
+}</pre
+          >
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Global variables
+      let itemCounter = 3
+      let selectedItem = null
+      let preventionEnabled = false
+      let propagationEnabled = false
+      let eventLogEntries = []
+
+      // Performance tracking
+      let performanceMetrics = {
+        individual: 0,
+        fragment: 0,
+      }
+
+      // 1. DocumentFragment Performance Demo
+      function addItemsIndividually() {
+        const container = document.getElementById("fragmentList")
+        const startTime = performance.now()
+
+        // Clear container
+        container.innerHTML = ""
+
+        // Add 1000 items individually (causes 1000 DOM operations)
+        for (let i = 1; i <= 1000; i++) {
+          const item = document.createElement("div")
+          item.className = "list-item"
+          item.innerHTML = `
+                    <span>Individual Item ${i}</span>
+                    <small>Added individually</small>
+                `
+          container.appendChild(item)
+        }
+
+        const endTime = performance.now()
+        const duration = endTime - startTime
+        performanceMetrics.individual = duration
+
+        updatePerformanceDisplay()
+      }
+
+      function addItemsWithFragment() {
+        const container = document.getElementById("fragmentList")
+        const startTime = performance.now()
+
+        // Clear container
+        container.innerHTML = ""
+
+        // Create DocumentFragment
+        const fragment = document.createDocumentFragment()
+
+        // Add 1000 items to fragment (no DOM operations yet)
+        for (let i = 1; i <= 1000; i++) {
+          const item = document.createElement("div")
+          item.className = "list-item"
+          item.innerHTML = `
+                    <span>Fragment Item ${i}</span>
+                    <small>Added via fragment</small>
+                `
+          fragment.appendChild(item)
+        }
+
+        // Single DOM operation
+        container.appendChild(fragment)
+
+        const endTime = performance.now()
+        const duration = endTime - startTime
+        performanceMetrics.fragment = duration
+
+        updatePerformanceDisplay()
+      }
+
+      function updatePerformanceDisplay() {
+        const info = document.getElementById("performanceInfo")
+        let content = ""
+
+        if (performanceMetrics.individual > 0) {
+          content += `<span class="performance-metric">Individual: ${performanceMetrics.individual.toFixed(
+            2
+          )}ms</span>`
+        }
+
+        if (performanceMetrics.fragment > 0) {
+          content += `<span class="performance-metric">Fragment: ${performanceMetrics.fragment.toFixed(
+            2
+          )}ms</span>`
+        }
+
+        if (
+          performanceMetrics.individual > 0 &&
+          performanceMetrics.fragment > 0
+        ) {
+          const improvement = (
+            ((performanceMetrics.individual - performanceMetrics.fragment) /
+              performanceMetrics.individual) *
+            100
+          ).toFixed(1)
+          content += `<span class="performance-metric">Improvement: ${improvement}%</span>`
+        }
+
+        info.innerHTML = content || "Performance metrics will appear here..."
+      }
+
+      // 2. DOM Manipulation Methods
+      function addItem() {
+        const input = document.getElementById("itemInput")
+        const text = input.value.trim()
+
+        if (!text) {
+          alert("Please enter item text")
+          return
+        }
+
+        const container = document.getElementById("manipulationList")
+        const item = createListItem(text, ++itemCounter)
+
+        container.appendChild(item)
+        input.value = ""
+
+        highlightElement(item)
+      }
+
+      function insertAtBeginning() {
+        const input = document.getElementById("itemInput")
+        const text = input.value.trim() || `New Item ${++itemCounter}`
+
+        const container = document.getElementById("manipulationList")
+        const item = createListItem(text, itemCounter)
+
+        // insertBefore with first child
+        container.insertBefore(item, container.firstChild)
+
+        document.getElementById("itemInput").value = ""
+        highlightElement(item)
+      }
+
+      function insertAtPosition() {
+        const input = document.getElementById("itemInput")
+        const text = input.value.trim() || `Inserted Item ${++itemCounter}`
+
+        const container = document.getElementById("manipulationList")
+        const item = createListItem(text, itemCounter)
+
+        // insertBefore at position 3 (index 2)
+        const referenceNode = container.children[2]
+        if (referenceNode) {
+          container.insertBefore(item, referenceNode)
+        } else {
+          container.appendChild(item)
+        }
+
+        document.getElementById("itemInput").value = ""
+        highlightElement(item)
+      }
+
+      function moveItems() {
+        const container = document.getElementById("manipulationList")
+        const items = Array.from(container.children)
+
+        if (items.length < 2) {
+          alert("Need at least 2 items to demonstrate moving")
+          return
+        }
+
+        // Move last item to beginning
+        const lastItem = items[items.length - 1]
+        container.insertBefore(lastItem, container.firstChild)
+
+        // Move second item to end
+        if (items.length > 1) {
+          const secondItem = container.children[1]
+          container.appendChild(secondItem)
+        }
+
+        // Highlight moved items
+        highlightElement(lastItem)
+        if (container.children.length > 1) {
+          setTimeout(() => highlightElement(container.lastChild), 500)
+        }
+      }
+
+      function createListItem(text, id) {
+        const item = document.createElement("div")
+        item.className = "list-item"
+        item.dataset.id = id
+        item.innerHTML = `
+                <span>${text}</span>
+                <div>
+                    <button class="btn btn-warning" onclick="editItem(this)">Edit</button>
+                    <button class="btn btn-danger" onclick="deleteItem(this)">Delete</button>
+                </div>
+            `
+
+        // Add click handler for selection
+        item.addEventListener("click", function (e) {
+          if (e.target.tagName !== "BUTTON") {
+            selectItem(this)
+          }
+        })
+
+        return item
+      }
+
+      function selectItem(item) {
+        // Remove previous selection
+        document.querySelectorAll(".list-item").forEach((el) => {
+          el.style.background = ""
+        })
+
+        // Select new item
+        item.style.background = "#cce5ff"
+        selectedItem = item
+      }
+
+      function editItem(button) {
+        const item = button.closest(".list-item")
+        const span = item.querySelector("span")
+        const currentText = span.textContent
+
+        const newText = prompt("Edit item:", currentText)
+        if (newText !== null && newText.trim()) {
+          span.textContent = newText.trim()
+          highlightElement(item)
+        }
+      }
+
+      function deleteItem(button) {
+        const item = button.closest(".list-item")
+        const text = item.querySelector("span").textContent
+
+        if (confirm(`Delete "${text}"?`)) {
+          const container = item.parentNode
+          container.removeChild(item)
+
+          // If this was the selected item, clear selection
+          if (selectedItem === item) {
+            selectedItem = null
+          }
+        }
+      }
+
+      function clearList(listId) {
+        const container = document.getElementById(listId)
+        container.innerHTML =
+          listId === "fragmentList" ? "<p>Items will appear here...</p>" : ""
+
+        if (listId === "fragmentList") {
+          performanceMetrics = { individual: 0, fragment: 0 }
+          updatePerformanceDisplay()
+        }
+      }
+
+      // 3. Event Propagation Control
+      function togglePrevention() {
+        preventionEnabled = !preventionEnabled
+        const status = preventionEnabled ? "enabled" : "disabled"
+        logEvent("system", null, `Prevention ${status}`)
+      }
+
+      function togglePropagation() {
+        propagationEnabled = !propagationEnabled
+        const status = propagationEnabled ? "enabled" : "disabled"
+        logEvent("system", null, `Propagation stopping ${status}`)
+      }
+
+      function logEvent(source, event, message) {
+        const timestamp = new Date().toLocaleTimeString()
+
+        if (event) {
+          // Handle event prevention
+          if (preventionEnabled) {
+            event.preventDefault()
+          }
+
+          // Handle event propagation
+          if (propagationEnabled) {
+            event.stopPropagation()
+          }
+
+          // Log the event
+          const entry = `[${timestamp}] ${source.toUpperCase()}: ${
+            message || "clicked"
+          }`
+          if (preventionEnabled) entry += " (prevented)"
+          if (propagationEnabled) entry += " (stopped)"
+
+          eventLogEntries.push(entry)
+        } else {
+          // System message
+          eventLogEntries.push(`[${timestamp}] SYSTEM: ${message}`)
+        }
+
+        updateEventLog()
+      }
+
+      function updateEventLog() {
+        const log = document.getElementById("eventLog")
+        log.innerHTML =
+          eventLogEntries.slice(-10).join("\n") ||
+          "Event log will appear here..."
+        log.scrollTop = log.scrollHeight
+      }
+
+      function clearEventLog() {
+        eventLogEntries = []
+        updateEventLog()
+      }
+
+      // Utility Functions
+      function highlightElement(element) {
+        element.classList.add("highlight")
+        setTimeout(() => {
+          element.classList.remove("highlight")
+        }, 2000)
+      }
+
+      // Initialize event demo styles
+      document.addEventListener("DOMContentLoaded", function () {
+        const style = document.createElement("style")
+        style.textContent = `
+                .event-demo {
+                    margin: 1rem 0;
+                }
+                
+                .parent-element {
+                    background: #e3f2fd;
+                    border: 2px solid #2196f3;
+                    padding: 2rem;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    margin: 1rem 0;
+                }
+                
+                .child-element {
+                    background: #f3e5f5;
+                    border: 2px solid #9c27b0;
+                    padding: 1.5rem;
+                    border-radius: 8px;
+                    margin: 1rem;
+                    cursor: pointer;
+                }
+                
+                .child-element a {
+                    display: block;
+                    background: #e8f5e8;
+                    border: 2px solid #4caf50;
+                    padding: 1rem;
+                    border-radius: 4px;
+                    margin: 1rem 0;
+                    text-decoration: none;
+                    color: #2e7d32;
+                    text-align: center;
+                    cursor: pointer;
+                }
+                
+                .child-element a:hover {
+                    background: #c8e6c9;
+                }
+            `
+        document.head.appendChild(style)
+
+        // Initial event log
+        logEvent("system", null, "Event propagation demo initialized")
+      })
+    </script>
+  </body>
+</html>

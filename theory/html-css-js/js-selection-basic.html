@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DOM Selection Methods</title>
+    <style>
+      .container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        font-family: Arial, sans-serif;
+      }
+      .example-section {
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+      }
+      .highlight {
+        background: yellow;
+        padding: 2px 4px;
+      }
+      .button {
+        background: #007bff;
+        color: white;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 0.5rem;
+      }
+      .button:hover {
+        background: #0056b3;
+      }
+      .output {
+        background: white;
+        padding: 1rem;
+        border-left: 4px solid #007bff;
+        margin-top: 1rem;
+      }
+      .demo-box {
+        padding: 1rem;
+        margin: 0.5rem;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>DOM Selection Methods Demo</h1>
+
+      <!-- 1. getElementById() -->
+      <div class="example-section">
+        <h2>1. getElementById()</h2>
+        <div id="unique-element" class="demo-box">
+          I have a unique ID: "unique-element"
+        </div>
+        <button class="button" onclick="selectById()">Select by ID</button>
+        <div class="output" id="output1">
+          Click the button to see the result
+        </div>
+      </div>
+
+      <!-- 2. querySelector() -->
+      <div class="example-section">
+        <h2>2. querySelector() - By Class</h2>
+        <div class="demo-item demo-box">First item with class "demo-item"</div>
+        <div class="demo-item demo-box">Second item with class "demo-item"</div>
+        <div class="demo-item demo-box">Third item with class "demo-item"</div>
+        <button class="button" onclick="selectByClass()">
+          Select First by Class
+        </button>
+        <div class="output" id="output2">
+          Click the button to see the result
+        </div>
+      </div>
+
+      <!-- 3. querySelectorAll() -->
+      <div class="example-section">
+        <h2>3. querySelectorAll() - Multiple Elements</h2>
+        <p class="text-element">Paragraph 1</p>
+        <p class="text-element">Paragraph 2</p>
+        <p class="text-element">Paragraph 3</p>
+        <button class="button" onclick="selectMultiple()">
+          Select All Paragraphs
+        </button>
+        <div class="output" id="output3">
+          Click the button to see the result
+        </div>
+      </div>
+
+      <!-- 4. Attribute selectors -->
+      <div class="example-section">
+        <h2>4. Advanced Selectors</h2>
+        <ul id="advanced-list">
+          <li data-category="fruit">Apple</li>
+          <li data-category="vegetable">Carrot</li>
+          <li data-category="fruit">Banana</li>
+          <li data-category="vegetable">Broccoli</li>
+        </ul>
+        <button class="button" onclick="advancedSelection()">
+          Use Advanced Selectors
+        </button>
+        <div class="output" id="output4">
+          Click the button to see the result
+        </div>
+      </div>
+
+      <!-- 5. Parent–child relationships -->
+      <div class="example-section">
+        <h2>5. Element Relationships</h2>
+        <div id="parent-element" class="demo-box">
+          Parent Element
+          <div class="child-element">Child 1</div>
+          <div class="child-element">Child 2</div>
+          <div class="child-element">Child 3</div>
+        </div>
+        <button class="button" onclick="exploreRelationships()">
+          Explore Relationships
+        </button>
+        <div class="output" id="output5">
+          Click the button to see the result
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* ---------- 1. getElementById() ---------- */
+      function selectById() {
+        const element = document.getElementById("unique-element")
+        const output = document.getElementById("output1")
+
+        element.classList.add("highlight")
+
+        output.innerHTML = `
+                <strong>Selected element:</strong><br>
+                • Tag: ${element.tagName}<br>
+                • ID: ${element.id}<br>
+                • Content: "${element.textContent}"<br>
+                • Class list: [${Array.from(element.classList).join(", ")}]
+            `
+
+        setTimeout(() => element.classList.remove("highlight"), 2_000)
+      }
+
+      /* ---------- 2. querySelector() ---------- */
+      function selectByClass() {
+        const element = document.querySelector(".demo-item") // first match
+        const output = document.getElementById("output2")
+
+        element.classList.add("highlight")
+
+        output.innerHTML = `
+                <strong>Selected first element with class "demo-item":</strong><br>
+                • Content: "${element.textContent}"<br>
+                • Note: Only the first matching element is selected<br>
+                • CSS Selector used: ".demo-item"
+            `
+
+        setTimeout(() => element.classList.remove("highlight"), 2_000)
+      }
+
+      /* ---------- 3. querySelectorAll() ---------- */
+      function selectMultiple() {
+        const elements = document.querySelectorAll(".text-element")
+        const output = document.getElementById("output3")
+
+        let list = ""
+        elements.forEach((el, idx) => {
+          el.classList.add("highlight")
+          list += `• ${el.textContent}<br>`
+        })
+
+        output.innerHTML = `
+                <strong>Selected ${elements.length} paragraphs:</strong><br>
+                ${list}
+            `
+
+        setTimeout(
+          () => elements.forEach((el) => el.classList.remove("highlight")),
+          2_000
+        )
+      }
+
+      /* ---------- 4. Attribute & compound selectors ---------- */
+      function advancedSelection() {
+        const fruits = document.querySelectorAll(
+          '#advanced-list li[data-category="fruit"]'
+        )
+        const vegetables = document.querySelectorAll(
+          '#advanced-list li[data-category="vegetable"]'
+        )
+        const output = document.getElementById("output4")
+
+        fruits.forEach((li) => li.classList.add("highlight"))
+        vegetables.forEach((li) => (li.style.fontWeight = "bold"))
+
+        output.innerHTML = `
+                <strong>Advanced selection results:</strong><br>
+                • Fruits highlighted (attribute selector)<br>
+                • Vegetables made bold (same attribute, different value)<br>
+                • Total fruits: ${fruits.length}<br>
+                • Total vegetables: ${vegetables.length}
+            `
+
+        setTimeout(() => {
+          fruits.forEach((li) => li.classList.remove("highlight"))
+          vegetables.forEach((li) => (li.style.fontWeight = "normal"))
+        }, 2_000)
+      }
+
+      /* ---------- 5. Parent–child relationships ---------- */
+      function exploreRelationships() {
+        const parent = document.getElementById("parent-element")
+        const children = parent.children // HTMLCollection
+        const first = parent.firstElementChild // first child node
+        const last = parent.lastElementChild // last child node
+        const output = document.getElementById("output5")
+
+        // highlight parent & children
+        parent.classList.add("highlight")
+        Array.from(children).forEach(
+          (child) => (child.style.background = "#ffecb3")
+        )
+
+        output.innerHTML = `
+                <strong>Relationship details:</strong><br>
+                • Child count: ${children.length}<br>
+                • First child content: "${first.textContent}"<br>
+                • Last child content: "${last.textContent}"<br>
+                • Parent's tag: ${parent.tagName}
+            `
+
+        setTimeout(() => {
+          parent.classList.remove("highlight")
+          Array.from(children).forEach((child) => (child.style.background = ""))
+        }, 2_000)
+      }
+    </script>
+  </body>
+</html>

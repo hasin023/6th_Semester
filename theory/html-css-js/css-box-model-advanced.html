@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Advanced Box Model with Box-Sizing</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fa;
+        padding: 2rem;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      h1,
+      h2 {
+        color: #333;
+        margin-bottom: 1rem;
+      }
+
+      .comparison-section {
+        margin-bottom: 3rem;
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .box-container {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .demo-box {
+        flex: 1;
+        min-width: 250px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 20px;
+        border: 10px solid #ff6b6b;
+        margin: 15px;
+        text-align: center;
+        border-radius: 8px;
+      }
+
+      .content-box {
+        box-sizing: content-box;
+        width: 200px;
+      }
+
+      .border-box {
+        box-sizing: border-box;
+        width: 200px;
+      }
+
+      .code-display {
+        background: #2d3748;
+        color: #e2e8f0;
+        padding: 1rem;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        margin: 1rem 0;
+        overflow-x: auto;
+      }
+
+      .measurements {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .measurement-item {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 6px;
+        text-align: center;
+      }
+
+      .measurement-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #667eea;
+      }
+
+      .measurement-label {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      /* Interactive Examples */
+      .interactive-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+      }
+
+      .control-panel {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+      }
+
+      .controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+
+      .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .control-group label {
+        font-weight: bold;
+        color: #333;
+      }
+
+      .control-group input[type="range"] {
+        width: 100%;
+      }
+
+      .control-group select {
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      .live-demo-box {
+        background: linear-gradient(135deg, #4ecdc4, #44a08d);
+        color: white;
+        text-align: center;
+        border-radius: 8px;
+        margin: 1rem auto;
+        max-width: 400px;
+        transition: all 0.3s ease;
+      }
+
+      .box-info {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 1rem;
+        margin-top: 1rem;
+        border-radius: 4px;
+        font-family: "Courier New", monospace;
+        font-size: 0.9rem;
+      }
+
+      /* Practical Examples */
+      .practical-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s;
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+      }
+
+      .card-header {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .card-content {
+        padding: 1.5rem;
+      }
+
+      .card-with-content-box {
+        box-sizing: content-box;
+        width: 200px;
+        padding: 20px;
+        border: 5px solid #e2e8f0;
+      }
+
+      .card-with-border-box {
+        box-sizing: border-box;
+        width: 200px;
+        padding: 20px;
+        border: 5px solid #e2e8f0;
+      }
+
+      .highlight {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        padding: 1rem;
+        border-radius: 6px;
+        margin: 1rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Advanced CSS Box Model Guide</h1>
+
+      <!-- Basic Comparison -->
+      <div class="comparison-section">
+        <h2>Content-Box vs Border-Box Comparison</h2>
+
+        <div class="box-container">
+          <div class="demo-box content-box">
+            <h3>Content-Box (Default)</h3>
+            <p>Width: 200px</p>
+            <p>Padding: 20px</p>
+            <p>Border: 10px</p>
+            <p>Margin: 15px</p>
+            <strong>Total Width: 280px</strong>
+          </div>
+
+          <div class="demo-box border-box">
+            <h3>Border-Box</h3>
+            <p>Width: 200px</p>
+            <p>Padding: 20px</p>
+            <p>Border: 10px</p>
+            <p>Margin: 15px</p>
+            <strong>Total Width: 200px</strong>
+          </div>
+        </div>
+
+        <div class="code-display">
+          /* Content-Box (Default behavior) */ .content-box { box-sizing:
+          content-box; width: 200px; padding: 20px; border: 10px solid #ff6b6b;
+          margin: 15px; /* Total width = 200px + 40px + 20px = 260px */ /* Plus
+          margins = 260px + 30px = 290px space occupied */ } /* Border-Box
+          (Modern preferred method) */ .border-box { box-sizing: border-box;
+          width: 200px; padding: 20px; border: 10px solid #ff6b6b; margin: 15px;
+          /* Total width = 200px (padding and border included) */ /* Plus
+          margins = 200px + 30px = 230px space occupied */ }
+        </div>
+
+        <div class="measurements">
+          <div class="measurement-item">
+            <div class="measurement-value">280px</div>
+            <div class="measurement-label">Content-Box Total Width</div>
+          </div>
+          <div class="measurement-item">
+            <div class="measurement-value">200px</div>
+            <div class="measurement-label">Border-Box Total Width</div>
+          </div>
+          <div class="measurement-item">
+            <div class="measurement-value">140px</div>
+            <div class="measurement-label">
+              Actual Content Width (Border-Box)
+            </div>
+          </div>
+          <div class="measurement-item">
+            <div class="measurement-value">200px</div>
+            <div class="measurement-label">
+              Actual Content Width (Content-Box)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Demo -->
+      <div class="interactive-section">
+        <h2>Interactive Box Model Explorer</h2>
+
+        <div class="control-panel">
+          <div class="controls">
+            <div class="control-group">
+              <label for="width-control"
+                >Width: <span id="width-value">300</span>px</label
+              >
+              <input
+                type="range"
+                id="width-control"
+                min="100"
+                max="500"
+                value="300"
+              />
+            </div>
+            <div class="control-group">
+              <label for="padding-control"
+                >Padding: <span id="padding-value">20</span>px</label
+              >
+              <input
+                type="range"
+                id="padding-control"
+                min="0"
+                max="50"
+                value="20"
+              />
+            </div>
+            <div class="control-group">
+              <label for="border-control"
+                >Border: <span id="border-value">5</span>px</label
+              >
+              <input
+                type="range"
+                id="border-control"
+                min="0"
+                max="20"
+                value="5"
+              />
+            </div>
+            <div class="control-group">
+              <label for="margin-control"
+                >Margin: <span id="margin-value">15</span>px</label
+              >
+              <input
+                type="range"
+                id="margin-control"
+                min="0"
+                max="50"
+                value="15"
+              />
+            </div>
+            <div class="control-group">
+              <label for="box-sizing-control">Box Sizing:</label>
+              <select id="box-sizing-control">
+                <option value="content-box">Content-Box</option>
+                <option value="border-box">Border-Box</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="live-demo-box" id="live-demo">
+          <h3>Live Box Model Demo</h3>
+          <p>Adjust the controls above to see how the box model changes!</p>
+
+          <div class="box-info" id="box-info">
+            <!-- Dynamic content will be inserted here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Practical Applications -->
+      <div class="comparison-section">
+        <h2>Practical Applications</h2>
+
+        <div class="highlight">
+          <strong>Why Border-Box is Preferred:</strong> When using border-box,
+          the width you set is the actual width the element will occupy
+          (excluding margins), making layouts more predictable and easier to
+          manage.
+        </div>
+
+        <h3>Equal Width Cards Example</h3>
+        <div class="practical-grid">
+          <div class="card">
+            <div class="card-header">
+              <h4>Content-Box Card</h4>
+            </div>
+            <div class="card-content">
+              <p>
+                This card uses content-box sizing. The width doesn't include
+                padding and borders, making it wider than expected.
+              </p>
+              <div
+                style="
+                  font-family: monospace;
+                  font-size: 0.8rem;
+                  margin-top: 1rem;
+                  background: #f8f9fa;
+                  padding: 0.5rem;
+                  border-radius: 4px;
+                "
+              >
+                Total width: 200px + 40px + 10px = 250px
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h4>Border-Box Card</h4>
+            </div>
+            <div class="card-content" style="box-sizing: border-box">
+              <p>
+                This card uses border-box sizing. The width includes padding and
+                borders, keeping it exactly 200px wide.
+              </p>
+              <div
+                style="
+                  font-family: monospace;
+                  font-size: 0.8rem;
+                  margin-top: 1rem;
+                  background: #f8f9fa;
+                  padding: 0.5rem;
+                  border-radius: 4px;
+                "
+              >
+                Total width: 200px (padding + border included)
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h4>Best Practice</h4>
+            </div>
+            <div class="card-content">
+              <p>
+                Use border-box for consistent, predictable layouts. Many
+                developers set it globally with the universal selector.
+              </p>
+              <div
+                style="
+                  font-family: monospace;
+                  font-size: 0.8rem;
+                  margin-top: 1rem;
+                  background: #f8f9fa;
+                  padding: 0.5rem;
+                  border-radius: 4px;
+                "
+              >
+                * { box-sizing: border-box; }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-display">
+          /* Global Border-Box (Recommended) */ *, *::before, *::after {
+          box-sizing: border-box; } /* This makes all elements use border-box by
+          default */ /* Padding and borders are included in the width/height */
+          /* Makes responsive design much easier! */ /* Example: Two equal
+          columns */ .column { width: 50%; padding: 20px; border: 1px solid
+          #ddd; float: left; /* With border-box, these will be exactly 50% wide
+          */ /* With content-box, they would overflow the container */ }
+        </div>
+      </div>
+
+      <!-- Advanced Examples -->
+      <div class="comparison-section">
+        <h2>Advanced Box Model Techniques</h2>
+
+        <h3>Negative Margins</h3>
+        <div
+          style="
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+          "
+        >
+          <div
+            style="
+              background: #667eea;
+              color: white;
+              padding: 1rem;
+              margin: -10px 0 20px -20px;
+              border-radius: 4px;
+              width: 200px;
+            "
+          >
+            <strong>Negative Left & Top Margin</strong>
+            <p>This box pulls itself left and up using negative margins.</p>
+          </div>
+          <div
+            style="
+              background: #4ecdc4;
+              color: white;
+              padding: 1rem;
+              margin: 20px -10px -10px 0;
+              border-radius: 4px;
+              width: 200px;
+              margin-left: auto;
+            "
+          >
+            <strong>Negative Right & Bottom Margin</strong>
+            <p>This box allows following elements to overlap it.</p>
+          </div>
+        </div>
+
+        <h3>Collapsing Margins</h3>
+        <div
+          style="
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+          "
+        >
+          <p>
+            <strong>Important:</strong> Vertical margins between adjacent
+            elements collapse! The larger margin wins.
+          </p>
+          <div
+            style="
+              background: #ff6b6b;
+              color: white;
+              padding: 1rem;
+              margin-bottom: 30px;
+              text-align: center;
+            "
+          >
+            Margin-bottom: 30px
+          </div>
+          <div
+            style="
+              background: #4ecdc4;
+              color: white;
+              padding: 1rem;
+              margin-top: 20px;
+              text-align: center;
+            "
+          >
+            Margin-top: 20px
+            <br /><small>Actual space between: 30px (not 50px!)</small>
+          </div>
+        </div>
+
+        <h3>Box Model Reset Techniques</h3>
+        <div class="code-display">
+          /* Method 1: Universal Border-Box (Most Popular) */ *, *::before,
+          *::after { box-sizing: border-box; } /* Method 2: Inherited Border-Box
+          */ html { box-sizing: border-box; } *, *::before, *::after {
+          box-sizing: inherit; } /* Method 3: Full CSS Reset (Aggressive) */ * {
+          margin: 0; padding: 0; box-sizing: border-box; } /* Method 4:
+          Normalize.css approach (Gentle) */ /* Preserves useful defaults while
+          fixing inconsistencies */
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Interactive demo functionality
+      const controls = {
+        width: document.getElementById("width-control"),
+        padding: document.getElementById("padding-control"),
+        border: document.getElementById("border-control"),
+        margin: document.getElementById("margin-control"),
+        boxSizing: document.getElementById("box-sizing-control"),
+      }
+
+      const values = {
+        width: document.getElementById("width-value"),
+        padding: document.getElementById("padding-value"),
+        border: document.getElementById("border-value"),
+        margin: document.getElementById("margin-value"),
+      }
+
+      const demoBox = document.getElementById("live-demo")
+      const boxInfo = document.getElementById("box-info")
+
+      function updateDemo() {
+        const width = parseInt(controls.width.value)
+        const padding = parseInt(controls.padding.value)
+        const border = parseInt(controls.border.value)
+        const margin = parseInt(controls.margin.value)
+        const boxSizing = controls.boxSizing.value
+
+        // Update value displays
+        values.width.textContent = width
+        values.padding.textContent = padding
+        values.border.textContent = border
+        values.margin.textContent = margin
+
+        // Apply styles to demo box
+        demoBox.style.width = width + "px"
+        demoBox.style.padding = padding + "px"
+        demoBox.style.border = border + "px solid #ff6b6b"
+        demoBox.style.margin = margin + "px auto"
+        demoBox.style.boxSizing = boxSizing
+
+        // Calculate total dimensions
+        let totalWidth, contentWidth
+        if (boxSizing === "border-box") {
+          totalWidth = width
+          contentWidth = width - padding * 2 - border * 2
+        } else {
+          totalWidth = width + padding * 2 + border * 2
+          contentWidth = width
+        }
+
+        const spaceOccupied = totalWidth + margin * 2
+
+        // Update info display
+        boxInfo.innerHTML = `
+                <strong>Box Sizing:</strong> ${boxSizing}<br>
+                <strong>Content Width:</strong> ${contentWidth}px<br>
+                <strong>Total Width:</strong> ${totalWidth}px<br>
+                <strong>Space Occupied:</strong> ${spaceOccupied}px<br>
+                <strong>Calculation:</strong> ${
+                  boxSizing === "border-box"
+                    ? `${width}px (all included) + ${margin * 2}px margin`
+                    : `${width}px + ${padding * 2}px padding + ${
+                        border * 2
+                      }px border + ${margin * 2}px margin`
+                }
+            `
+      }
+
+      // Add event listeners
+      Object.values(controls).forEach((control) => {
+        control.addEventListener("input", updateDemo)
+      })
+
+      // Initial update
+      updateDemo()
+    </script>
+  </body>
+</html>

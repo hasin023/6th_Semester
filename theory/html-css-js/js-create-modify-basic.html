@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Basic Element Creation</title>
+    <style>
+      .container {
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 2rem;
+        font-family: Arial, sans-serif;
+      }
+      .new-element {
+        background: #e8f5e8;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-left: 4px solid #4caf50;
+        border-radius: 4px;
+      }
+      .button {
+        background: #007bff;
+        color: white;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 0.5rem;
+      }
+      .button:hover {
+        background: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Element Creation Demo</h1>
+
+      <div id="content">
+        <p>This is the existing content.</p>
+      </div>
+
+      <button class="button" onclick="addParagraph()">Add Paragraph</button>
+      <button class="button" onclick="addStyledElement()">
+        Add Styled Element
+      </button>
+      <button class="button" onclick="addWithTextNode()">
+        Add with Text Node
+      </button>
+
+      <h3>Element Count: <span id="count">1</span></h3>
+    </div>
+
+    <script>
+      let elementCount = 1
+
+      // Basic element creation
+      function addParagraph() {
+        // Create new paragraph element
+        const newParagraph = document.createElement("p")
+
+        // Set content using innerHTML
+        newParagraph.innerHTML = `This is paragraph number ${++elementCount}`
+
+        // Add to container
+        const container = document.getElementById("content")
+        container.appendChild(newParagraph)
+
+        // Update count
+        document.getElementById("count").textContent = elementCount
+      }
+
+      // Create element with styling
+      function addStyledElement() {
+        const newElement = document.createElement("div")
+        newElement.className = "new-element"
+        newElement.innerHTML = `<strong>Styled Element ${++elementCount}</strong><br>This element has CSS classes applied.`
+
+        document.getElementById("content").appendChild(newElement)
+        document.getElementById("count").textContent = elementCount
+      }
+
+      // Create element using text nodes (safer approach)
+      function addWithTextNode() {
+        const newDiv = document.createElement("div")
+        const textNode = document.createTextNode(
+          `Text Node Element ${++elementCount}`
+        )
+
+        newDiv.appendChild(textNode)
+        newDiv.style.background = "#fff3cd"
+        newDiv.style.padding = "0.5rem"
+        newDiv.style.border = "1px solid #ffeaa7"
+        newDiv.style.borderRadius = "4px"
+        newDiv.style.margin = "0.5rem 0"
+
+        document.getElementById("content").appendChild(newDiv)
+        document.getElementById("count").textContent = elementCount
+      }
+    </script>
+  </body>
+</html>

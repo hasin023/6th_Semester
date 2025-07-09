@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Advanced Event Handling System</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: #f5f7fa;
+        padding: 2rem;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      .content {
+        padding: 2rem;
+      }
+
+      .demo-section {
+        margin: 2rem 0;
+        padding: 1.5rem;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        background: #f8f9fa;
+      }
+
+      .demo-section h3 {
+        color: #495057;
+        margin-bottom: 1rem;
+      }
+
+      /* Event Delegation Demo */
+      .task-list {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+
+      .task-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem;
+        margin: 0.5rem 0;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        background: #fff;
+        transition: all 0.3s;
+      }
+
+      .task-item:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .task-item.completed {
+        background: #d4edda;
+        text-decoration: line-through;
+        opacity: 0.7;
+      }
+
+      .task-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background: #007bff;
+        color: white;
+      }
+
+      .btn-success {
+        background: #28a745;
+        color: white;
+      }
+
+      .btn-danger {
+        background: #dc3545;
+        color: white;
+      }
+
+      .btn-warning {
+        background: #ffc107;
+        color: #212529;
+      }
+
+      .btn:hover {
+        opacity: 0.8;
+        transform: translateY(-1px);
+      }
+
+      .task-input {
+        display: flex;
+        gap: 0.5rem;
+        margin: 1rem 0;
+      }
+
+      .task-input input {
+        flex: 1;
+        padding: 0.5rem;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+      }
+
+      /* Custom Events Demo */
+      .notification-system {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+
+      .notification {
+        padding: 1rem;
+        margin: 0.5rem 0;
+        border-radius: 4px;
+        border-left: 4px solid #007bff;
+        background: #f8f9fa;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        animation: slideIn 0.3s ease-out;
+      }
+
+      .notification.success {
+        border-left-color: #28a745;
+      }
+      .notification.error {
+        border-left-color: #dc3545;
+      }
+      .notification.warning {
+        border-left-color: #ffc107;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      /* Drag and Drop Demo */
+      .drag-drop-area {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .drop-zone {
+        min-height: 200px;
+        border: 2px dashed #ced4da;
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+      }
+
+      .drop-zone.drag-over {
+        border-color: #007bff;
+        background: #f0f8ff;
+      }
+
+      .draggable-item {
+        background: #007bff;
+        color: white;
+        padding: 0.75rem;
+        margin: 0.5rem;
+        border-radius: 4px;
+        cursor: move;
+        user-select: none;
+        transition: all 0.3s;
+      }
+
+      .draggable-item:hover {
+        background: #0056b3;
+        transform: scale(1.05);
+      }
+
+      .draggable-item.dragging {
+        opacity: 0.5;
+      }
+
+      /* Event Bubbling Demo */
+      .bubbling-demo {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+      }
+
+      .level-1 {
+        background: #e3f2fd;
+        border: 2px solid #2196f3;
+        padding: 2rem;
+        border-radius: 8px;
+      }
+
+      .level-2 {
+        background: #f3e5f5;
+        border: 2px solid #9c27b0;
+        padding: 2rem;
+        border-radius: 8px;
+        margin: 1rem;
+      }
+
+      .level-3 {
+        background: #e8f5e8;
+        border: 2px solid #4caf50;
+        padding: 2rem;
+        border-radius: 8px;
+        margin: 1rem;
+        text-align: center;
+      }
+
+      /* Event Log */
+      .event-log {
+        background: #2d3748;
+        color: #e2e8f0;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+        max-height: 300px;
+        overflow-y: auto;
+        font-family: "Courier New", monospace;
+      }
+
+      .log-entry {
+        padding: 0.25rem 0;
+        border-bottom: 1px solid #4a5568;
+      }
+
+      .log-entry:last-child {
+        border-bottom: none;
+      }
+
+      .timestamp {
+        color: #a0aec0;
+        font-size: 0.8rem;
+      }
+
+      .event-type {
+        color: #4fd1c7;
+        font-weight: bold;
+      }
+
+      .controls {
+        display: flex;
+        gap: 1rem;
+        margin: 1rem 0;
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 768px) {
+        .drag-drop-area {
+          grid-template-columns: 1fr;
+        }
+
+        .controls {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Advanced Event Handling System</h1>
+        <p>
+          Comprehensive demonstration of JavaScript event handling techniques
+        </p>
+      </div>
+
+      <div class="content">
+        <!-- Event Delegation Demo -->
+        <div class="demo-section">
+          <h3>1. Event Delegation - Dynamic Task List</h3>
+          <p>
+            Add and manage tasks dynamically. Notice how events work on newly
+            created elements.
+          </p>
+
+          <div class="task-input">
+            <input
+              type="text"
+              id="taskInput"
+              placeholder="Enter a new task..."
+            />
+            <button class="btn btn-primary" onclick="addTask()">
+              Add Task
+            </button>
+          </div>
+
+          <div class="task-list" id="taskList">
+            <div class="task-item">
+              <span>Sample Task 1</span>
+              <div class="task-actions">
+                <button class="btn btn-success" data-action="complete">
+                  Complete
+                </button>
+                <button class="btn btn-warning" data-action="edit">Edit</button>
+                <button class="btn btn-danger" data-action="delete">
+                  Delete
+                </button>
+              </div>
+            </div>
+            <div class="task-item">
+              <span>Sample Task 2</span>
+              <div class="task-actions">
+                <button class="btn btn-success" data-action="complete">
+                  Complete
+                </button>
+                <button class="btn btn-warning" data-action="edit">Edit</button>
+                <button class="btn btn-danger" data-action="delete">
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom Events Demo -->
+        <div class="demo-section">
+          <h3>2. Custom Events - Notification System</h3>
+          <p>
+            Create and dispatch custom events for inter-component communication.
+          </p>
+
+          <div class="controls">
+            <button
+              class="btn btn-primary"
+              onclick="triggerCustomEvent('user-login')"
+            >
+              Trigger User Login
+            </button>
+            <button
+              class="btn btn-success"
+              onclick="triggerCustomEvent('data-saved')"
+            >
+              Trigger Data Saved
+            </button>
+            <button
+              class="btn btn-danger"
+              onclick="triggerCustomEvent('error-occurred')"
+            >
+              Trigger Error
+            </button>
+            <button
+              class="btn btn-warning"
+              onclick="triggerCustomEvent('warning-issued')"
+            >
+              Trigger Warning
+            </button>
+          </div>
+
+          <div class="notification-system" id="notificationSystem">
+            <p>
+              Click the buttons above to trigger custom events and see
+              notifications appear here.
+            </p>
+          </div>
+        </div>
+
+        <!-- Drag and Drop Demo -->
+        <div class="demo-section">
+          <h3>3. Drag and Drop Events</h3>
+          <p>
+            Drag items from the left zone to the right zone using HTML5 drag and
+            drop API.
+          </p>
+
+          <div class="drag-drop-area">
+            <div class="drop-zone" id="sourceZone">
+              <div>
+                <h4>Source Items</h4>
+                <div class="draggable-item" draggable="true" data-id="1">
+                  Item 1
+                </div>
+                <div class="draggable-item" draggable="true" data-id="2">
+                  Item 2
+                </div>
+                <div class="draggable-item" draggable="true" data-id="3">
+                  Item 3
+                </div>
+              </div>
+            </div>
+
+            <div class="drop-zone" id="targetZone">
+              <div>
+                <h4>Drop Zone</h4>
+                <p>Drag items here</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Bubbling Demo -->
+        <div class="demo-section">
+          <h3>4. Event Bubbling and Capturing</h3>
+          <p>
+            Click on different levels to see how events propagate through the
+            DOM tree.
+          </p>
+
+          <div class="controls">
+            <button class="btn btn-primary" onclick="toggleBubbling()">
+              Toggle Bubbling
+            </button>
+            <button class="btn btn-success" onclick="toggleCapturing()">
+              Toggle Capturing
+            </button>
+            <button class="btn btn-danger" onclick="clearEventLog()">
+              Clear Log
+            </button>
+          </div>
+
+          <div class="bubbling-demo">
+            <div class="level-1" data-level="1">
+              Level 1 (Grandparent)
+              <div class="level-2" data-level="2">
+                Level 2 (Parent)
+                <div class="level-3" data-level="3">
+                  Level 3 (Child) - Click me!
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Log -->
+        <div class="demo-section">
+          <h3>Event Log</h3>
+          <div class="event-log" id="eventLog">
+            <div class="log-entry">
+              <span class="timestamp"
+                >[${new Date().toLocaleTimeString()}]</span
+              >
+              <span class="event-type">SYSTEM:</span>
+              Event handling system initialized
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Global variables
+      let taskCounter = 2
+      let bubblingEnabled = true
+      let capturingEnabled = false
+      let draggedItem = null
+
+      // Event logging function
+      function logEvent(type, message, details = null) {
+        const eventLog = document.getElementById("eventLog")
+        const timestamp = new Date().toLocaleTimeString()
+
+        const logEntry = document.createElement("div")
+        logEntry.className = "log-entry"
+        logEntry.innerHTML = `
+                <span class="timestamp">[${timestamp}]</span>
+                <span class="event-type">${type}:</span>
+                ${message}
+                ${details ? `<br><small>${details}</small>` : ""}
+            `
+
+        eventLog.appendChild(logEntry)
+        eventLog.scrollTop = eventLog.scrollHeight
+      }
+
+      // 1. Event Delegation for Task List
+      document.addEventListener("DOMContentLoaded", function () {
+        const taskList = document.getElementById("taskList")
+
+        // Event delegation - single listener handles all task buttons
+        taskList.addEventListener("click", function (event) {
+          const button = event.target.closest("button[data-action]")
+          if (!button) return
+
+          const action = button.getAttribute("data-action")
+          const taskItem = button.closest(".task-item")
+          const taskText = taskItem.querySelector("span")
+
+          switch (action) {
+            case "complete":
+              taskItem.classList.toggle("completed")
+              const isCompleted = taskItem.classList.contains("completed")
+              logEvent(
+                "TASK",
+                `Task "${taskText.textContent}" ${
+                  isCompleted ? "completed" : "uncompleted"
+                }`
+              )
+              button.textContent = isCompleted ? "Undo" : "Complete"
+              break
+
+            case "edit":
+              const newText = prompt("Edit task:", taskText.textContent)
+              if (newText && newText.trim()) {
+                const oldText = taskText.textContent
+                taskText.textContent = newText.trim()
+                logEvent(
+                  "TASK",
+                  `Task edited from "${oldText}" to "${newText}"`
+                )
+              }
+              break
+
+            case "delete":
+              if (confirm("Are you sure you want to delete this task?")) {
+                logEvent("TASK", `Task "${taskText.textContent}" deleted`)
+                taskItem.remove()
+              }
+              break
+          }
+        })
+      })
+
+      // Add new task function
+      function addTask() {
+        const taskInput = document.getElementById("taskInput")
+        const taskText = taskInput.value.trim()
+
+        if (!taskText) {
+          alert("Please enter a task")
+          return
+        }
+
+        const taskList = document.getElementById("taskList")
+        const newTask = document.createElement("div")
+        newTask.className = "task-item"
+        newTask.innerHTML = `
+                <span>${taskText}</span>
+                <div class="task-actions">
+                    <button class="btn btn-success" data-action="complete">Complete</button>
+                    <button class="btn btn-warning" data-action="edit">Edit</button>
+                    <button class="btn btn-danger" data-action="delete">Delete</button>
+                </div>
+            `
+
+        taskList.appendChild(newTask)
+        taskInput.value = ""
+        taskCounter++
+
+        logEvent("TASK", `New task added: "${taskText}"`)
+      }
+
+      // Handle Enter key in task input
+      document
+        .getElementById("taskInput")
+        .addEventListener("keypress", function (event) {
+          if (event.key === "Enter") {
+            addTask()
+          }
+        })
+
+      // 2. Custom Events System
+      function triggerCustomEvent(eventType) {
+        const customEvent = new CustomEvent(eventType, {
+          detail: {
+            timestamp: new Date().toISOString(),
+            source: "user-interaction",
+            data: { eventType },
+          },
+        })
+
+        document.dispatchEvent(customEvent)
+        logEvent("CUSTOM", `Custom event "${eventType}" dispatched`)
+      }
+
+      // Custom event listeners
+      document.addEventListener("user-login", function (event) {
+        showNotification("User logged in successfully!", "success")
+        logEvent(
+          "CUSTOM",
+          "User login event received",
+          JSON.stringify(event.detail)
+        )
+      })
+
+      document.addEventListener("data-saved", function (event) {
+        showNotification("Data saved successfully!", "success")
+        logEvent(
+          "CUSTOM",
+          "Data saved event received",
+          JSON.stringify(event.detail)
+        )
+      })
+
+      document.addEventListener("error-occurred", function (event) {
+        showNotification("An error occurred!", "error")
+        logEvent("CUSTOM", "Error event received", JSON.stringify(event.detail))
+      })
+
+      document.addEventListener("warning-issued", function (event) {
+        showNotification("Warning: Check your input!", "warning")
+        logEvent(
+          "CUSTOM",
+          "Warning event received",
+          JSON.stringify(event.detail)
+        )
+      })
+
+      // Show notification function
+      function showNotification(message, type = "info") {
+        const notificationSystem = document.getElementById("notificationSystem")
+
+        // Clear existing notifications
+        notificationSystem.innerHTML = ""
+
+        const notification = document.createElement("div")
+        notification.className = `notification ${type}`
+        notification.innerHTML = `
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()" style="background: none; border: none; color: inherit; cursor: pointer; font-size: 1.2rem;">×</button>
+            `
+
+        notificationSystem.appendChild(notification)
+
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+          if (notification.parentElement) {
+            notification.remove()
+          }
+        }, 5000)
+      }
+
+      // 3. Drag and Drop Events
+      function initializeDragAndDrop() {
+        const sourceZone = document.getElementById("sourceZone")
+        const targetZone = document.getElementById("targetZone")
+
+        // Drag start event
+        sourceZone.addEventListener("dragstart", function (event) {
+          if (event.target.classList.contains("draggable-item")) {
+            draggedItem = event.target
+            event.target.classList.add("dragging")
+            event.dataTransfer.effectAllowed = "move"
+            event.dataTransfer.setData("text/html", event.target.outerHTML)
+            logEvent(
+              "DRAG",
+              `Started dragging item: ${event.target.textContent}`
+            )
+          }
+        })
+
+        // Drag end event
+        sourceZone.addEventListener("dragend", function (event) {
+          if (event.target.classList.contains("draggable-item")) {
+            event.target.classList.remove("dragging")
+            logEvent(
+              "DRAG",
+              `Stopped dragging item: ${event.target.textContent}`
+            )
+          }
+        })
+
+        // Drag over event (must prevent default to allow drop)
+        targetZone.addEventListener("dragover", function (event) {
+          event.preventDefault()
+          event.dataTransfer.dropEffect = "move"
+        })
+
+        // Drag enter event
+        targetZone.addEventListener("dragenter", function (event) {
+          event.preventDefault()
+          this.classList.add("drag-over")
+          logEvent("DRAG", "Item entered drop zone")
+        })
+
+        // Drag leave event
+        targetZone.addEventListener("dragleave", function (event) {
+          if (!this.contains(event.relatedTarget)) {
+            this.classList.remove("drag-over")
+            logEvent("DRAG", "Item left drop zone")
+          }
+        })
+
+        // Drop event
+        targetZone.addEventListener("drop", function (event) {
+          event.preventDefault()
+          this.classList.remove("drag-over")
+
+          if (draggedItem) {
+            // Move the item to the target zone
+            const newItem = draggedItem.cloneNode(true)
+            newItem.classList.remove("dragging")
+
+            // Clear the target zone and add the new item
+            this.innerHTML = ""
+            this.appendChild(newItem)
+
+            // Remove the original item
+            draggedItem.remove()
+
+            logEvent(
+              "DRAG",
+              `Item "${newItem.textContent}" dropped successfully`
+            )
+
+            // Add a reset button
+            const resetBtn = document.createElement("button")
+            resetBtn.className = "btn btn-primary"
+            resetBtn.textContent = "Reset"
+            resetBtn.onclick = function () {
+              initializeDragItems()
+              logEvent("DRAG", "Drag and drop area reset")
+            }
+            this.appendChild(resetBtn)
+          }
+
+          draggedItem = null
+        })
+      }
+
+      function initializeDragItems() {
+        const sourceZone = document.getElementById("sourceZone")
+        const targetZone = document.getElementById("targetZone")
+
+        sourceZone.innerHTML = `
+                <div>
+                    <h4>Source Items</h4>
+                    <div class="draggable-item" draggable="true" data-id="1">Item 1</div>
+                    <div class="draggable-item" draggable="true" data-id="2">Item 2</div>
+                    <div class="draggable-item" draggable="true" data-id="3">Item 3</div>
+                </div>
+            `
+
+        targetZone.innerHTML = `
+                <div>
+                    <h4>Drop Zone</h4>
+                    <p>Drag items here</p>
+                </div>
+            `
+      }
+
+      // 4. Event Bubbling and Capturing
+      function initializeBubblingDemo() {
+        const bubblingDemo = document.querySelector(".bubbling-demo")
+
+        // Add event listeners for each level
+        ;[1, 2, 3].forEach((level) => {
+          const element = document.querySelector(`[data-level="${level}"]`)
+
+          // Bubbling phase listener
+          element.addEventListener("click", function (event) {
+            if (bubblingEnabled) {
+              logEvent(
+                "BUBBLE",
+                `Level ${level} clicked (bubbling phase)`,
+                `Target: ${event.target.getAttribute("data-level")}`
+              )
+            }
+          })
+
+          // Capturing phase listener
+          element.addEventListener(
+            "click",
+            function (event) {
+              if (capturingEnabled) {
+                logEvent(
+                  "CAPTURE",
+                  `Level ${level} clicked (capturing phase)`,
+                  `Target: ${event.target.getAttribute("data-level")}`
+                )
+              }
+            },
+            true
+          ) // true enables capturing
+        })
+      }
+
+      function toggleBubbling() {
+        bubblingEnabled = !bubblingEnabled
+        const status = bubblingEnabled ? "enabled" : "disabled"
+        logEvent("SYSTEM", `Event bubbling ${status}`)
+      }
+
+      function toggleCapturing() {
+        capturingEnabled = !capturingEnabled
+        const status = capturingEnabled ? "enabled" : "disabled"
+        logEvent("SYSTEM", `Event capturing ${status}`)
+      }
+
+      function clearEventLog() {
+        const eventLog = document.getElementById("eventLog")
+        eventLog.innerHTML = `
+                <div class="log-entry">
+                    <span class="timestamp">[${new Date().toLocaleTimeString()}]</span>
+                    <span class="event-type">SYSTEM:</span>
+                    Event log cleared
+                </div>
+            `
+      }
+
+      // Initialize everything when DOM is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeDragAndDrop()
+        initializeBubblingDemo()
+        logEvent("SYSTEM", "All event handlers initialized")
+      })
+
+      // Prevent default behavior for demonstration
+      document.addEventListener("contextmenu", function (event) {
+        logEvent("SYSTEM", "Right-click context menu prevented")
+        event.preventDefault()
+      })
+
+      // Global error handling
+      window.addEventListener("error", function (event) {
+        logEvent("ERROR", "JavaScript error occurred", event.message)
+      })
+
+      // Unload event
+      window.addEventListener("beforeunload", function (event) {
+        logEvent("SYSTEM", "Page about to unload")
+      })
+    </script>
+  </body>
+</html>

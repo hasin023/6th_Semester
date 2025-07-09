@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Basic CSS Manipulation</title>
+    <style>
+      .container {
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 2rem;
+        font-family: Arial, sans-serif;
+      }
+
+      .demo-box {
+        width: 200px;
+        height: 200px;
+        background: #007bff;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 8px;
+        margin: 2rem auto;
+        transition: all 0.3s;
+      }
+
+      .controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .control-group label {
+        font-weight: bold;
+        color: #333;
+      }
+
+      .control-group input,
+      .control-group select {
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin: 1rem 0;
+      }
+
+      .btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background: #007bff;
+        color: white;
+      }
+      .btn-success {
+        background: #28a745;
+        color: white;
+      }
+      .btn-warning {
+        background: #ffc107;
+        color: #212529;
+      }
+      .btn-danger {
+        background: #dc3545;
+        color: white;
+      }
+      .btn-info {
+        background: #17a2b8;
+        color: white;
+      }
+
+      .btn:hover {
+        opacity: 0.8;
+        transform: translateY(-2px);
+      }
+
+      .style-info {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+        font-family: monospace;
+        font-size: 0.9rem;
+      }
+
+      .predefined-styles {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 0.5rem;
+        margin: 1rem 0;
+      }
+
+      .style-preset {
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s;
+      }
+
+      .style-preset:hover {
+        background: #f8f9fa;
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Basic CSS Manipulation Demo</h1>
+
+      <div class="demo-box" id="demoBox">Sample Box</div>
+
+      <div class="controls">
+        <div class="control-group">
+          <label for="bgColor">Background Color:</label>
+          <input type="color" id="bgColor" value="#007bff" />
+        </div>
+
+        <div class="control-group">
+          <label for="textColor">Text Color:</label>
+          <input type="color" id="textColor" value="#ffffff" />
+        </div>
+
+        <div class="control-group">
+          <label for="fontSize">Font Size:</label>
+          <input type="range" id="fontSize" min="10" max="50" value="20" />
+          <span id="fontSizeValue">20px</span>
+        </div>
+
+        <div class="control-group">
+          <label for="borderRadius">Border Radius:</label>
+          <input type="range" id="borderRadius" min="0" max="50" value="8" />
+          <span id="borderRadiusValue">8px</span>
+        </div>
+
+        <div class="control-group">
+          <label for="boxWidth">Width:</label>
+          <input type="range" id="boxWidth" min="100" max="400" value="200" />
+          <span id="boxWidthValue">200px</span>
+        </div>
+
+        <div class="control-group">
+          <label for="boxHeight">Height:</label>
+          <input type="range" id="boxHeight" min="100" max="400" value="200" />
+          <span id="boxHeightValue">200px</span>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-primary" onclick="applyStyles()">
+          Apply Changes
+        </button>
+        <button class="btn btn-success" onclick="randomizeStyles()">
+          Randomize
+        </button>
+        <button class="btn btn-warning" onclick="saveStyle()">
+          Save Style
+        </button>
+        <button class="btn btn-info" onclick="loadStyle()">Load Style</button>
+        <button class="btn btn-danger" onclick="resetStyles()">Reset</button>
+      </div>
+
+      <h3>Predefined Styles:</h3>
+      <div class="predefined-styles">
+        <div class="style-preset" onclick="applyPreset('modern')">Modern</div>
+        <div class="style-preset" onclick="applyPreset('retro')">Retro</div>
+        <div class="style-preset" onclick="applyPreset('neon')">Neon</div>
+        <div class="style-preset" onclick="applyPreset('minimal')">Minimal</div>
+        <div class="style-preset" onclick="applyPreset('gradient')">
+          Gradient
+        </div>
+        <div class="style-preset" onclick="applyPreset('shadow')">Shadow</div>
+      </div>
+
+      <div class="style-info" id="styleInfo">
+        Current styles will appear here...
+      </div>
+    </div>
+
+    <script>
+      const demoBox = document.getElementById("demoBox")
+      let savedStyle = null
+
+      // Apply styles based on control values
+      function applyStyles() {
+        const bgColor = document.getElementById("bgColor").value
+        const textColor = document.getElementById("textColor").value
+        const fontSize = document.getElementById("fontSize").value
+        const borderRadius = document.getElementById("borderRadius").value
+        const boxWidth = document.getElementById("boxWidth").value
+        const boxHeight = document.getElementById("boxHeight").value
+
+        // Apply styles using the style property
+        demoBox.style.backgroundColor = bgColor
+        demoBox.style.color = textColor
+        demoBox.style.fontSize = fontSize + "px"
+        demoBox.style.borderRadius = borderRadius + "px"
+        demoBox.style.width = boxWidth + "px"
+        demoBox.style.height = boxHeight + "px"
+
+        // Update display values
+        document.getElementById("fontSizeValue").textContent = fontSize + "px"
+        document.getElementById("borderRadiusValue").textContent =
+          borderRadius + "px"
+        document.getElementById("boxWidthValue").textContent = boxWidth + "px"
+        document.getElementById("boxHeightValue").textContent = boxHeight + "px"
+
+        updateStyleInfo()
+      }
+
+      // Randomize styles
+      function randomizeStyles() {
+        const colors = [
+          "#ff6b6b",
+          "#4ecdc4",
+          "#45b7d1",
+          "#f093fb",
+          "#ffeaa7",
+          "#dda0dd",
+          "#98fb98",
+          "#f0e68c",
+        ]
+
+        document.getElementById("bgColor").value =
+          colors[Math.floor(Math.random() * colors.length)]
+        document.getElementById("textColor").value =
+          colors[Math.floor(Math.random() * colors.length)]
+        document.getElementById("fontSize").value =
+          Math.floor(Math.random() * 40) + 10
+        document.getElementById("borderRadius").value = Math.floor(
+          Math.random() * 50
+        )
+        document.getElementById("boxWidth").value =
+          Math.floor(Math.random() * 300) + 100
+        document.getElementById("boxHeight").value =
+          Math.floor(Math.random() * 300) + 100
+
+        applyStyles()
+      }
+
+      // Apply predefined style presets
+      function applyPreset(preset) {
+        switch (preset) {
+          case "modern":
+            demoBox.style.backgroundColor = "#667eea"
+            demoBox.style.color = "white"
+            demoBox.style.fontSize = "18px"
+            demoBox.style.borderRadius = "12px"
+            demoBox.style.width = "250px"
+            demoBox.style.height = "150px"
+            demoBox.style.boxShadow = "0 4px 20px rgba(102, 126, 234, 0.3)"
+            break
+
+          case "retro":
+            demoBox.style.backgroundColor = "#ff6b6b"
+            demoBox.style.color = "#fff"
+            demoBox.style.fontSize = "24px"
+            demoBox.style.borderRadius = "0px"
+            demoBox.style.width = "200px"
+            demoBox.style.height = "200px"
+            demoBox.style.boxShadow = "8px 8px 0px #333"
+            demoBox.style.fontFamily = "monospace"
+            break
+
+          case "neon":
+            demoBox.style.backgroundColor = "#000"
+            demoBox.style.color = "#00ff00"
+            demoBox.style.fontSize = "22px"
+            demoBox.style.borderRadius = "4px"
+            demoBox.style.width = "300px"
+            demoBox.style.height = "100px"
+            demoBox.style.boxShadow = "0 0 20px #00ff00, inset 0 0 20px #00ff00"
+            demoBox.style.border = "2px solid #00ff00"
+            break
+
+          case "minimal":
+            demoBox.style.backgroundColor = "#fff"
+            demoBox.style.color = "#333"
+            demoBox.style.fontSize = "16px"
+            demoBox.style.borderRadius = "2px"
+            demoBox.style.width = "200px"
+            demoBox.style.height = "200px"
+            demoBox.style.boxShadow = "none"
+            demoBox.style.border = "1px solid #ddd"
+            break
+
+          case "gradient":
+            demoBox.style.background =
+              "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+            demoBox.style.color = "white"
+            demoBox.style.fontSize = "20px"
+            demoBox.style.borderRadius = "20px"
+            demoBox.style.width = "250px"
+            demoBox.style.height = "250px"
+            demoBox.style.boxShadow = "0 8px 32px rgba(102, 126, 234, 0.3)"
+            break
+
+          case "shadow":
+            demoBox.style.backgroundColor = "#fff"
+            demoBox.style.color = "#333"
+            demoBox.style.fontSize = "18px"
+            demoBox.style.borderRadius = "8px"
+            demoBox.style.width = "200px"
+            demoBox.style.height = "200px"
+            demoBox.style.boxShadow =
+              "0 10px 40px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.1)"
+            break
+        }
+
+        updateStyleInfo()
+      }
+
+      // Save current style
+      function saveStyle() {
+        savedStyle = {
+          backgroundColor: demoBox.style.backgroundColor,
+          color: demoBox.style.color,
+          fontSize: demoBox.style.fontSize,
+          borderRadius: demoBox.style.borderRadius,
+          width: demoBox.style.width,
+          height: demoBox.style.height,
+          boxShadow: demoBox.style.boxShadow,
+          border: demoBox.style.border,
+          fontFamily: demoBox.style.fontFamily,
+        }
+
+        // Save to localStorage
+        localStorage.setItem("savedBoxStyle", JSON.stringify(savedStyle))
+
+        alert("Style saved successfully!")
+      }
+
+      // Load saved style
+      function loadStyle() {
+        const saved = localStorage.getItem("savedBoxStyle")
+        if (saved) {
+          savedStyle = JSON.parse(saved)
+
+          Object.keys(savedStyle).forEach((property) => {
+            if (savedStyle[property]) {
+              demoBox.style[property] = savedStyle[property]
+            }
+          })
+
+          updateStyleInfo()
+          alert("Style loaded successfully!")
+        } else {
+          alert("No saved style found!")
+        }
+      }
+
+      // Reset to default styles
+      function resetStyles() {
+        demoBox.style.backgroundColor = "#007bff"
+        demoBox.style.color = "#ffffff"
+        demoBox.style.fontSize = "20px"
+        demoBox.style.borderRadius = "8px"
+        demoBox.style.width = "200px"
+        demoBox.style.height = "200px"
+        demoBox.style.boxShadow = "none"
+        demoBox.style.border = "none"
+        demoBox.style.fontFamily = "Arial, sans-serif"
+
+        // Reset control values
+        document.getElementById("bgColor").value = "#007bff"
+        document.getElementById("textColor").value = "#ffffff"
+        document.getElementById("fontSize").value = "20"
+        document.getElementById("borderRadius").value = "8"
+        document.getElementById("boxWidth").value = "200"
+        document.getElementById("boxHeight").value = "200"
+
+        applyStyles()
+      }
+
+      // Update style information display
+      function updateStyleInfo() {
+        const computedStyle = getComputedStyle(demoBox)
+        const styleInfo = document.getElementById("styleInfo")
+
+        styleInfo.innerHTML = `
+                <strong>Current Applied Styles:</strong><br>
+                background-color: ${computedStyle.backgroundColor}<br>
+                color: ${computedStyle.color}<br>
+                font-size: ${computedStyle.fontSize}<br>
+                border-radius: ${computedStyle.borderRadius}<br>
+                width: ${computedStyle.width}<br>
+                height: ${computedStyle.height}<br>
+                box-shadow: ${computedStyle.boxShadow}<br>
+                border: ${computedStyle.border}<br>
+                font-family: ${computedStyle.fontFamily}
+            `
+      }
+
+      // Add event listeners for real-time updates
+      document.addEventListener("DOMContentLoaded", function () {
+        ;[
+          "bgColor",
+          "textColor",
+          "fontSize",
+          "borderRadius",
+          "boxWidth",
+          "boxHeight",
+        ].forEach((id) => {
+          document.getElementById(id).addEventListener("input", applyStyles)
+        })
+
+        // Initial style info update
+        updateStyleInfo()
+      })
+    </script>
+  </body>
+</html>

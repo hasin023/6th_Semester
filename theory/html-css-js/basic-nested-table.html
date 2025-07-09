@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Nested Table</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      td,
+      th {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th>Student</th>
+        <th>Subjects & Grades</th>
+      </tr>
+      <tr>
+        <td>John Doe</td>
+        <td>
+          <!-- Nested Table -->
+          <table>
+            <tr>
+              <td>Math</td>
+              <td>A</td>
+            </tr>
+            <tr>
+              <td>Science</td>
+              <td>B+</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

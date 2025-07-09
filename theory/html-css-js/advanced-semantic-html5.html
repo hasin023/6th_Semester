@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Complex Semantic Website</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1rem 0;
+      }
+      header h1 {
+        margin-bottom: 0.5rem;
+      }
+
+      nav {
+        background: #333;
+        padding: 1rem 0;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+      }
+      nav li {
+        margin-right: 2rem;
+      }
+      nav a {
+        color: white;
+        text-decoration: none;
+      }
+      nav a:hover {
+        color: #667eea;
+      }
+
+      .content-wrapper {
+        display: flex;
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+      main {
+        flex: 2;
+      }
+      aside {
+        flex: 1;
+        background: #f4f4f4;
+        padding: 1.5rem;
+        border-radius: 8px;
+      }
+
+      article {
+        background: white;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      article header {
+        background: none;
+        color: #333;
+        padding: 0;
+        margin-bottom: 1rem;
+      }
+      article h2 {
+        color: #667eea;
+      }
+
+      section {
+        margin-bottom: 1.5rem;
+      }
+
+      .meta {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+      }
+
+      footer {
+        background: #333;
+        color: white;
+        text-align: center;
+        padding: 2rem 0;
+        margin-top: 2rem;
+      }
+
+      .highlight {
+        background: yellow;
+        padding: 2px 4px;
+      }
+
+      figure {
+        margin: 1rem 0;
+        text-align: center;
+      }
+      figcaption {
+        font-style: italic;
+        color: #666;
+        margin-top: 0.5rem;
+      }
+
+      details {
+        margin: 1rem 0;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: bold;
+        padding: 0.5rem;
+        background: #f0f0f0;
+        border-radius: 4px;
+      }
+      details[open] summary {
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>TechBlog Pro</h1>
+        <p>Your source for cutting-edge technology insights</p>
+      </div>
+    </header>
+
+    <nav>
+      <div class="container">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#tutorials">Tutorials</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#news">News</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="content-wrapper">
+        <main>
+          <article>
+            <header>
+              <h2>Understanding Modern Web Development</h2>
+              <div class="meta">
+                <time datetime="2024-01-15">Published on January 15, 2024</time>
+                | By <strong>John Developer</strong>
+              </div>
+            </header>
+
+            <section>
+              <h3>Introduction</h3>
+              <p>
+                Modern web development has evolved significantly. Today's
+                developers need to understand various technologies including
+                <mark class="highlight">HTML5</mark>,
+                <mark class="highlight">CSS3</mark>, and
+                <mark class="highlight">JavaScript ES6+</mark>.
+              </p>
+
+              <figure>
+                <div
+                  style="
+                    background: #667eea;
+                    color: white;
+                    padding: 20px;
+                    border-radius: 8px;
+                  "
+                >
+                  [Web Development Stack Diagram]
+                </div>
+                <figcaption>
+                  The modern web development technology stack
+                </figcaption>
+              </figure>
+            </section>
+
+            <section>
+              <h3>Key Technologies</h3>
+              <details>
+                <summary>Frontend Technologies</summary>
+                <p>
+                  Frontend development involves creating user interfaces using
+                  HTML for structure, CSS for styling, and JavaScript for
+                  interactivity. Modern frameworks like React, Vue, and Angular
+                  have revolutionized how we build user interfaces.
+                </p>
+              </details>
+
+              <details>
+                <summary>Backend Technologies</summary>
+                <p>
+                  Backend development handles server-side logic, database
+                  management, and API creation. Popular choices include Node.js,
+                  Python with Django/Flask, Java with Spring, and PHP with
+                  Laravel.
+                </p>
+              </details>
+            </section>
+
+            <section>
+              <h3>Best Practices</h3>
+              <p>
+                Here are some essential best practices for modern web
+                development:
+              </p>
+              <ul>
+                <li>Use semantic HTML for better accessibility</li>
+                <li>Implement responsive design principles</li>
+                <li>Optimize for performance and SEO</li>
+                <li>Follow security best practices</li>
+              </ul>
+            </section>
+          </article>
+
+          <article>
+            <header>
+              <h2>CSS Grid vs Flexbox: When to Use Which</h2>
+              <div class="meta">
+                <time datetime="2024-01-10">Published on January 10, 2024</time>
+                | By <strong>Sarah Designer</strong>
+              </div>
+            </header>
+
+            <section>
+              <p>
+                Both CSS Grid and Flexbox are powerful layout systems, but they
+                serve different purposes.
+                <mark class="highlight"
+                  >Flexbox is designed for one-dimensional layouts</mark
+                >, while
+                <mark class="highlight"
+                  >CSS Grid excels at two-dimensional layouts</mark
+                >.
+              </p>
+            </section>
+          </article>
+        </main>
+
+        <aside>
+          <section>
+            <h3>Recent Posts</h3>
+            <ul>
+              <li><a href="#">JavaScript ES2024 Features</a></li>
+              <li><a href="#">CSS Container Queries</a></li>
+              <li><a href="#">Web Performance Optimization</a></li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Categories</h3>
+            <ul>
+              <li><a href="#">Frontend Development</a></li>
+              <li><a href="#">Backend Development</a></li>
+              <li><a href="#">DevOps</a></li>
+              <li><a href="#">UI/UX Design</a></li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Newsletter</h3>
+            <p>Subscribe to get the latest updates:</p>
+            <form>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                style="width: 100%; padding: 8px; margin: 8px 0"
+              />
+              <button
+                type="submit"
+                style="
+                  width: 100%;
+                  padding: 8px;
+                  background: #667eea;
+                  color: white;
+                  border: none;
+                  border-radius: 4px;
+                "
+              >
+                Subscribe
+              </button>
+            </form>
+          </section>
+        </aside>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2024 TechBlog Pro. All rights reserved.</p>
+        <p>
+          <a href="#privacy" style="color: #ccc">Privacy Policy</a> |
+          <a href="#terms" style="color: #ccc">Terms of Service</a> |
+          <a href="#contact" style="color: #ccc">Contact Us</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

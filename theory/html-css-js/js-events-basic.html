@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Basic Event Handling</title>
+    <style>
+      .container {
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 2rem;
+        font-family: Arial, sans-serif;
+      }
+
+      .interactive-button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: block;
+        margin: 1rem auto;
+      }
+
+      .interactive-button:hover {
+        background: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      .interactive-button:active {
+        transform: translateY(0);
+      }
+
+      .event-log {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 1rem;
+        max-height: 300px;
+        overflow-y: auto;
+        margin-top: 1rem;
+      }
+
+      .log-entry {
+        padding: 0.5rem;
+        margin: 0.25rem 0;
+        border-radius: 4px;
+        border-left: 4px solid #007bff;
+      }
+
+      .log-entry.click {
+        border-left-color: #28a745;
+      }
+      .log-entry.hover {
+        border-left-color: #ffc107;
+      }
+      .log-entry.focus {
+        border-left-color: #17a2b8;
+      }
+      .log-entry.key {
+        border-left-color: #6f42c1;
+      }
+
+      .clear-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 1rem;
+      }
+
+      .input-demo {
+        margin: 1rem 0;
+        padding: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .input-demo input {
+        width: 100%;
+        padding: 0.5rem;
+        margin: 0.5rem 0;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Basic Event Handling Demo</h1>
+
+      <button class="interactive-button" id="mainButton">
+        Click Me! (Try different interactions)
+      </button>
+
+      <div class="input-demo">
+        <h3>Keyboard Events Demo</h3>
+        <input type="text" id="keyInput" placeholder="Type something here..." />
+        <p>Key pressed: <span id="keyDisplay">None</span></p>
+      </div>
+
+      <div class="event-log" id="eventLog">
+        <h3>Event Log</h3>
+        <p>Interact with the elements above to see events!</p>
+      </div>
+
+      <button class="clear-btn" onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <script>
+      // Get references to elements
+      const mainButton = document.getElementById("mainButton")
+      const keyInput = document.getElementById("keyInput")
+      const keyDisplay = document.getElementById("keyDisplay")
+      const eventLog = document.getElementById("eventLog")
+
+      // Function to log events
+      function logEvent(eventType, details) {
+        const timestamp = new Date().toLocaleTimeString()
+        const logEntry = document.createElement("div")
+        logEntry.className = `log-entry ${eventType}`
+        logEntry.innerHTML = `
+                <strong>${timestamp}</strong> - ${eventType.toUpperCase()}: ${details}
+            `
+
+        eventLog.appendChild(logEntry)
+        eventLog.scrollTop = eventLog.scrollHeight
+      }
+
+      // Mouse Events
+      mainButton.addEventListener("click", function (event) {
+        logEvent(
+          "click",
+          `Button clicked at coordinates (${event.clientX}, ${event.clientY})`
+        )
+
+        // Change button text temporarily
+        const originalText = this.textContent
+        this.textContent = "Clicked!"
+        setTimeout(() => {
+          this.textContent = originalText
+        }, 1000)
+      })
+
+      mainButton.addEventListener("mouseenter", function (event) {
+        logEvent("hover", "Mouse entered button area")
+      })
+
+      mainButton.addEventListener("mouseleave", function (event) {
+        logEvent("hover", "Mouse left button area")
+      })
+
+      mainButton.addEventListener("mousedown", function (event) {
+        logEvent("click", "Mouse button pressed down")
+      })
+
+      mainButton.addEventListener("mouseup", function (event) {
+        logEvent("click", "Mouse button released")
+      })
+
+      // Focus Events
+      mainButton.addEventListener("focus", function (event) {
+        logEvent("focus", "Button received focus")
+      })
+
+      mainButton.addEventListener("blur", function (event) {
+        logEvent("focus", "Button lost focus")
+      })
+
+      // Keyboard Events
+      keyInput.addEventListener("keydown", function (event) {
+        logEvent("key", `Key pressed: ${event.key} (Code: ${event.code})`)
+        keyDisplay.textContent = event.key
+      })
+
+      keyInput.addEventListener("keyup", function (event) {
+        logEvent("key", `Key released: ${event.key}`)
+      })
+
+      keyInput.addEventListener("input", function (event) {
+        logEvent("key", `Input value changed: "${event.target.value}"`)
+      })
+
+      // Form Events
+      keyInput.addEventListener("focus", function (event) {
+        logEvent("focus", "Text input focused")
+      })
+
+      keyInput.addEventListener("blur", function (event) {
+        logEvent("focus", "Text input lost focus")
+      })
+
+      // Clear log function
+      function clearLog() {
+        eventLog.innerHTML = "<h3>Event Log</h3><p>Event log cleared!</p>"
+      }
+
+      // Initial log entry
+      document.addEventListener("DOMContentLoaded", function () {
+        logEvent("load", "Page loaded and ready")
+      })
+    </script>
+  </body>
+</html>

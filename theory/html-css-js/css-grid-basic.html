@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple CSS Grid Gallery</title>
+    <style>
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .gallery-item {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        height: 200px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: transform 0.3s;
+      }
+
+      .gallery-item:hover {
+        transform: scale(1.05);
+      }
+
+      .gallery-item:nth-child(1) {
+        background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+      }
+      .gallery-item:nth-child(2) {
+        background: linear-gradient(45deg, #4ecdc4, #44a08d);
+      }
+      .gallery-item:nth-child(3) {
+        background: linear-gradient(45deg, #45b7d1, #96c93d);
+      }
+      .gallery-item:nth-child(4) {
+        background: linear-gradient(45deg, #f093fb, #f5576c);
+      }
+      .gallery-item:nth-child(5) {
+        background: linear-gradient(45deg, #4facfe, #00f2fe);
+      }
+      .gallery-item:nth-child(6) {
+        background: linear-gradient(45deg, #ffecd2, #fcb69f);
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align: center; margin: 2rem 0">CSS Grid Gallery</h1>
+
+    <div class="gallery">
+      <div class="gallery-item">Photo 1</div>
+      <div class="gallery-item">Photo 2</div>
+      <div class="gallery-item">Photo 3</div>
+      <div class="gallery-item">Photo 4</div>
+      <div class="gallery-item">Photo 5</div>
+      <div class="gallery-item">Photo 6</div>
+    </div>
+  </body>
+</html>

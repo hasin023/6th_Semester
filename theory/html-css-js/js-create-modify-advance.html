@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Advanced Element Creation & Modification</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: #f5f7fa;
+        padding: 2rem;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+      }
+
+      .control-panel {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+      }
+
+      .control-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .control-group label {
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .control-group input,
+      .control-group select,
+      .control-group textarea {
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 0.9rem;
+      }
+
+      .control-group textarea {
+        resize: vertical;
+        min-height: 60px;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background: #007bff;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #0056b3;
+      }
+
+      .btn-success {
+        background: #28a745;
+        color: white;
+      }
+
+      .btn-success:hover {
+        background: #1e7e34;
+      }
+
+      .btn-danger {
+        background: #dc3545;
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background: #c82333;
+      }
+
+      .btn-warning {
+        background: #ffc107;
+        color: #212529;
+      }
+
+      .btn-warning:hover {
+        background: #e0a800;
+      }
+
+      .content-area {
+        min-height: 300px;
+        border: 2px dashed #dee2e6;
+        border-radius: 8px;
+        padding: 1.5rem;
+        position: relative;
+      }
+
+      .content-area.has-content {
+        border-style: solid;
+        border-color: #ced4da;
+      }
+
+      .element-wrapper {
+        position: relative;
+        margin: 1rem 0;
+        padding: 1rem;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+        background: #f8f9fa;
+      }
+
+      .element-wrapper:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .element-controls {
+        position: absolute;
+        top: -10px;
+        right: 10px;
+        background: white;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: none;
+      }
+
+      .element-wrapper:hover .element-controls {
+        display: flex;
+      }
+
+      .control-btn {
+        padding: 0.25rem 0.5rem;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 0.8rem;
+        border-radius: 2px;
+        margin: 0 2px;
+      }
+
+      .control-btn:hover {
+        background: #f8f9fa;
+      }
+
+      .edit-mode {
+        border: 2px solid #007bff !important;
+        background: #f0f8ff !important;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+        padding: 1rem;
+        background: #e9ecef;
+        border-radius: 8px;
+      }
+
+      .stat-item {
+        text-align: center;
+        padding: 1rem;
+        background: white;
+        border-radius: 4px;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #007bff;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        color: #666;
+      }
+
+      .created-element {
+        margin: 0.5rem 0;
+        padding: 0.5rem;
+        background: white;
+        border-radius: 4px;
+      }
+
+      .element-heading {
+        color: #495057;
+        margin-bottom: 0.5rem;
+      }
+
+      .element-paragraph {
+        color: #6c757d;
+        line-height: 1.6;
+      }
+
+      .element-list {
+        padding-left: 1.5rem;
+      }
+
+      .element-list li {
+        margin: 0.25rem 0;
+        color: #495057;
+      }
+
+      .element-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+        margin: 0.5rem 0;
+      }
+
+      .element-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0.5rem 0;
+      }
+
+      .element-table th,
+      .element-table td {
+        border: 1px solid #dee2e6;
+        padding: 0.5rem;
+        text-align: left;
+      }
+
+      .element-table th {
+        background: #f8f9fa;
+        font-weight: bold;
+      }
+
+      .toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        background: #28a745;
+        color: white;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        transform: translateX(100%);
+        transition: transform 0.3s;
+      }
+
+      .toast.show {
+        transform: translateX(0);
+      }
+
+      .toast.error {
+        background: #dc3545;
+      }
+
+      @media (max-width: 768px) {
+        .control-panel {
+          grid-template-columns: 1fr;
+        }
+
+        .button-group {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Advanced Element Creation & Modification System</h1>
+
+      <div class="control-panel">
+        <div class="control-group">
+          <label for="elementType">Element Type:</label>
+          <select id="elementType" onchange="updateInputFields()">
+            <option value="paragraph">Paragraph</option>
+            <option value="heading">Heading</option>
+            <option value="list">List</option>
+            <option value="image">Image</option>
+            <option value="table">Table</option>
+            <option value="custom">Custom HTML</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="elementContent">Content:</label>
+          <textarea
+            id="elementContent"
+            placeholder="Enter content here..."
+          ></textarea>
+        </div>
+
+        <div class="control-group" id="headingLevelGroup" style="display: none">
+          <label for="headingLevel">Heading Level:</label>
+          <select id="headingLevel">
+            <option value="1">H1</option>
+            <option value="2">H2</option>
+            <option value="3">H3</option>
+            <option value="4">H4</option>
+            <option value="5">H5</option>
+            <option value="6">H6</option>
+          </select>
+        </div>
+
+        <div class="control-group" id="listTypeGroup" style="display: none">
+          <label for="listType">List Type:</label>
+          <select id="listType">
+            <option value="ul">Unordered List</option>
+            <option value="ol">Ordered List</option>
+          </select>
+        </div>
+
+        <div class="control-group" id="imageGroup" style="display: none">
+          <label for="imageUrl">Image URL:</label>
+          <input
+            type="url"
+            id="imageUrl"
+            placeholder="https://example.com/image.jpg"
+          />
+          <label for="imageAlt">Alt Text:</label>
+          <input type="text" id="imageAlt" placeholder="Image description" />
+        </div>
+
+        <div class="control-group" id="tableGroup" style="display: none">
+          <label for="tableRows">Rows:</label>
+          <input type="number" id="tableRows" min="1" max="10" value="2" />
+          <label for="tableCols">Columns:</label>
+          <input type="number" id="tableCols" min="1" max="10" value="2" />
+        </div>
+
+        <div class="control-group">
+          <label for="elementClass">CSS Classes:</label>
+          <input type="text" id="elementClass" placeholder="class1 class2" />
+        </div>
+
+        <div class="control-group">
+          <label for="elementId">Element ID:</label>
+          <input type="text" id="elementId" placeholder="unique-id" />
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-primary" onclick="createElement()">
+          Create Element
+        </button>
+        <button
+          class="btn btn-success"
+          onclick="saveElement()"
+          id="saveBtn"
+          style="display: none"
+        >
+          Save Changes
+        </button>
+        <button
+          class="btn btn-warning"
+          onclick="cancelEdit()"
+          id="cancelBtn"
+          style="display: none"
+        >
+          Cancel
+        </button>
+        <button class="btn btn-danger" onclick="clearAll()">Clear All</button>
+      </div>
+
+      <div class="content-area" id="contentArea">
+        <p style="color: #6c757d; text-align: center; margin-top: 2rem">
+          No elements created yet. Use the controls above to create your first
+          element.
+        </p>
+      </div>
+
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-number" id="totalElements">0</div>
+          <div class="stat-label">Total Elements</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="paragraphCount">0</div>
+          <div class="stat-label">Paragraphs</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="headingCount">0</div>
+          <div class="stat-label">Headings</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="listCount">0</div>
+          <div class="stat-label">Lists</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="imageCount">0</div>
+          <div class="stat-label">Images</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="tableCount">0</div>
+          <div class="stat-label">Tables</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      // Global variables
+      let elementCounter = 0
+      let editingElement = null
+      let elementStats = {
+        total: 0,
+        paragraph: 0,
+        heading: 0,
+        list: 0,
+        image: 0,
+        table: 0,
+        custom: 0,
+      }
+
+      // Update input fields based on element type
+      function updateInputFields() {
+        const elementType = document.getElementById("elementType").value
+
+        // Hide all conditional groups
+        document.getElementById("headingLevelGroup").style.display = "none"
+        document.getElementById("listTypeGroup").style.display = "none"
+        document.getElementById("imageGroup").style.display = "none"
+        document.getElementById("tableGroup").style.display = "none"
+
+        // Show relevant groups
+        switch (elementType) {
+          case "heading":
+            document.getElementById("headingLevelGroup").style.display = "block"
+            document.getElementById("elementContent").placeholder =
+              "Enter heading text..."
+            break
+          case "list":
+            document.getElementById("listTypeGroup").style.display = "block"
+            document.getElementById("elementContent").placeholder =
+              "Enter list items (one per line)..."
+            break
+          case "image":
+            document.getElementById("imageGroup").style.display = "block"
+            document.getElementById("elementContent").placeholder =
+              "Enter image caption (optional)..."
+            break
+          case "table":
+            document.getElementById("tableGroup").style.display = "block"
+            document.getElementById("elementContent").placeholder =
+              "Enter table data (comma-separated, row by row)..."
+            break
+          case "custom":
+            document.getElementById("elementContent").placeholder =
+              "Enter custom HTML..."
+            break
+          default:
+            document.getElementById("elementContent").placeholder =
+              "Enter paragraph text..."
+        }
+      }
+
+      // Create element based on type
+      function createElement() {
+        const elementType = document.getElementById("elementType").value
+        const content = document.getElementById("elementContent").value.trim()
+        const elementClass = document
+          .getElementById("elementClass")
+          .value.trim()
+        const elementId = document.getElementById("elementId").value.trim()
+
+        if (!content && elementType !== "image") {
+          showToast("Please enter content for the element", "error")
+          return
+        }
+
+        let newElement
+
+        try {
+          switch (elementType) {
+            case "paragraph":
+              newElement = createParagraph(content)
+              break
+            case "heading":
+              newElement = createHeading(content)
+              break
+            case "list":
+              newElement = createList(content)
+              break
+            case "image":
+              newElement = createImage(content)
+              break
+            case "table":
+              newElement = createTable(content)
+              break
+            case "custom":
+              newElement = createCustomHTML(content)
+              break
+            default:
+              throw new Error("Unknown element type")
+          }
+
+          if (newElement) {
+            // Apply classes and ID
+            if (elementClass) {
+              newElement.className = elementClass
+            }
+            if (elementId) {
+              newElement.id = elementId
+            }
+
+            // Wrap element with controls
+            const wrapper = createElementWrapper(newElement, elementType)
+
+            // Add to content area
+            const contentArea = document.getElementById("contentArea")
+            if (
+              contentArea.children.length === 1 &&
+              contentArea.children[0].tagName === "P"
+            ) {
+              contentArea.innerHTML = "" // Remove placeholder
+            }
+
+            contentArea.appendChild(wrapper)
+            contentArea.classList.add("has-content")
+
+            // Update stats
+            elementStats.total++
+            elementStats[elementType]++
+            updateStats()
+
+            // Clear form
+            clearForm()
+
+            showToast(
+              `${
+                elementType.charAt(0).toUpperCase() + elementType.slice(1)
+              } created successfully!`
+            )
+          }
+        } catch (error) {
+          showToast(`Error creating element: ${error.message}`, "error")
+        }
+      }
+
+      // Create paragraph element
+      function createParagraph(content) {
+        const paragraph = document.createElement("p")
+        paragraph.className = "element-paragraph"
+        paragraph.textContent = content
+        return paragraph
+      }
+
+      // Create heading element
+      function createHeading(content) {
+        const level = document.getElementById("headingLevel").value
+        const heading = document.createElement(`h${level}`)
+        heading.className = "element-heading"
+        heading.textContent = content
+        return heading
+      }
+
+      // Create list element
+      function createList(content) {
+        const listType = document.getElementById("listType").value
+        const list = document.createElement(listType)
+        list.className = "element-list"
+
+        const items = content.split("\n").filter((item) => item.trim())
+        items.forEach((item) => {
+          const li = document.createElement("li")
+          li.textContent = item.trim()
+          list.appendChild(li)
+        })
+
+        return list
+      }
+
+      // Create image element
+      function createImage(caption) {
+        const imageUrl = document.getElementById("imageUrl").value.trim()
+        const imageAlt = document.getElementById("imageAlt").value.trim()
+
+        if (!imageUrl) {
+          throw new Error("Image URL is required")
+        }
+
+        const container = document.createElement("div")
+        const image = document.createElement("img")
+        image.src = imageUrl
+        image.alt = imageAlt || "Image"
+        image.className = "element-image"
+
+        container.appendChild(image)
+
+        if (caption) {
+          const captionElement = document.createElement("p")
+          captionElement.textContent = caption
+          captionElement.style.fontStyle = "italic"
+          captionElement.style.textAlign = "center"
+          captionElement.style.marginTop = "0.5rem"
+          container.appendChild(captionElement)
+        }
+
+        return container
+      }
+
+      // Create table element
+      function createTable(content) {
+        const rows = parseInt(document.getElementById("tableRows").value)
+        const cols = parseInt(document.getElementById("tableCols").value)
+
+        const table = document.createElement("table")
+        table.className = "element-table"
+
+        const data = content
+          .split("\n")
+          .map((row) => row.split(",").map((cell) => cell.trim()))
+
+        // Create header row
+        const headerRow = document.createElement("tr")
+        for (let i = 0; i < cols; i++) {
+          const th = document.createElement("th")
+          th.textContent =
+            data[0] && data[0][i] ? data[0][i] : `Column ${i + 1}`
+          headerRow.appendChild(th)
+        }
+        table.appendChild(headerRow)
+
+        // Create data rows
+        for (let i = 1; i < rows; i++) {
+          const row = document.createElement("tr")
+          for (let j = 0; j < cols; j++) {
+            const td = document.createElement("td")
+            td.textContent =
+              data[i] && data[i][j] ? data[i][j] : `Row ${i}, Col ${j + 1}`
+            row.appendChild(td)
+          }
+          table.appendChild(row)
+        }
+
+        return table
+      }
+
+      // Create custom HTML element
+      function createCustomHTML(content) {
+        const container = document.createElement("div")
+        container.innerHTML = content
+        return container
+      }
+
+      // Create element wrapper with controls
+      function createElementWrapper(element, type) {
+        const wrapper = document.createElement("div")
+        wrapper.className = "element-wrapper"
+        wrapper.dataset.elementType = type
+        wrapper.dataset.elementId = ++elementCounter
+
+        // Add the element
+        wrapper.appendChild(element)
+
+        // Add controls
+        const controls = document.createElement("div")
+        controls.className = "element-controls"
+
+        const editBtn = document.createElement("button")
+        editBtn.className = "control-btn"
+        editBtn.innerHTML = "✏️"
+        editBtn.title = "Edit"
+        editBtn.onclick = () => editElement(wrapper)
+
+        const duplicateBtn = document.createElement("button")
+        duplicateBtn.className = "control-btn"
+        duplicateBtn.innerHTML = "📋"
+        duplicateBtn.title = "Duplicate"
+        duplicateBtn.onclick = () => duplicateElement(wrapper)
+
+        const deleteBtn = document.createElement("button")
+        deleteBtn.className = "control-btn"
+        deleteBtn.innerHTML = "🗑️"
+        deleteBtn.title = "Delete"
+        deleteBtn.onclick = () => deleteElement(wrapper)
+
+        controls.appendChild(editBtn)
+        controls.appendChild(duplicateBtn)
+        controls.appendChild(deleteBtn)
+        wrapper.appendChild(controls)
+
+        return wrapper
+      }
+
+      // Edit element
+      function editElement(wrapper) {
+        editingElement = wrapper
+        const type = wrapper.dataset.elementType
+        const element = wrapper.firstChild
+
+        // Populate form with existing values
+        document.getElementById("elementType").value = type
+        updateInputFields()
+
+        // Set content based on type
+        switch (type) {
+          case "paragraph":
+            document.getElementById("elementContent").value =
+              element.textContent
+            break
+          case "heading":
+            document.getElementById("elementContent").value =
+              element.textContent
+            const level = element.tagName.charAt(1)
+            document.getElementById("headingLevel").value = level
+            break
+          case "list":
+            const items = Array.from(element.children)
+              .map((li) => li.textContent)
+              .join("\n")
+            document.getElementById("elementContent").value = items
+            document.getElementById("listType").value =
+              element.tagName.toLowerCase()
+            break
+          case "image":
+            const img = element.querySelector("img")
+            const caption = element.querySelector("p")
+            document.getElementById("imageUrl").value = img.src
+            document.getElementById("imageAlt").value = img.alt
+            document.getElementById("elementContent").value = caption
+              ? caption.textContent
+              : ""
+            break
+          case "custom":
+            document.getElementById("elementContent").value = element.innerHTML
+            break
+        }
+
+        // Set classes and ID
+        document.getElementById("elementClass").value = element.className
+        document.getElementById("elementId").value = element.id
+
+        // Show save/cancel buttons
+        document.getElementById("saveBtn").style.display = "inline-block"
+        document.getElementById("cancelBtn").style.display = "inline-block"
+
+        // Highlight editing element
+        wrapper.classList.add("edit-mode")
+
+        showToast("Element ready for editing", "info")
+      }
+
+      // Save element changes
+      function saveElement() {
+        if (!editingElement) return
+
+        const type = editingElement.dataset.elementType
+        const content = document.getElementById("elementContent").value.trim()
+
+        try {
+          let newElement
+
+          switch (type) {
+            case "paragraph":
+              newElement = createParagraph(content)
+              break
+            case "heading":
+              newElement = createHeading(content)
+              break
+            case "list":
+              newElement = createList(content)
+              break
+            case "image":
+              newElement = createImage(content)
+              break
+            case "table":
+              newElement = createTable(content)
+              break
+            case "custom":
+              newElement = createCustomHTML(content)
+              break
+          }
+
+          if (newElement) {
+            // Apply classes and ID
+            const elementClass = document
+              .getElementById("elementClass")
+              .value.trim()
+            const elementId = document.getElementById("elementId").value.trim()
+
+            if (elementClass) {
+              newElement.className = elementClass
+            }
+            if (elementId) {
+              newElement.id = elementId
+            }
+
+            // Replace old element with new one
+            const oldElement = editingElement.firstChild
+            editingElement.replaceChild(newElement, oldElement)
+
+            cancelEdit()
+            showToast("Element updated successfully!")
+          }
+        } catch (error) {
+          showToast(`Error updating element: ${error.message}`, "error")
+        }
+      }
+
+      // Cancel edit
+      function cancelEdit() {
+        if (editingElement) {
+          editingElement.classList.remove("edit-mode")
+          editingElement = null
+        }
+
+        document.getElementById("saveBtn").style.display = "none"
+        document.getElementById("cancelBtn").style.display = "none"
+
+        clearForm()
+      }
+
+      // Duplicate element
+      function duplicateElement(wrapper) {
+        const clonedWrapper = wrapper.cloneNode(true)
+        clonedWrapper.dataset.elementId = ++elementCounter
+
+        // Re-attach event listeners to cloned controls
+        const controls = clonedWrapper.querySelector(".element-controls")
+        const buttons = controls.querySelectorAll(".control-btn")
+
+        buttons[0].onclick = () => editElement(clonedWrapper)
+        buttons[1].onclick = () => duplicateElement(clonedWrapper)
+        buttons[2].onclick = () => deleteElement(clonedWrapper)
+
+        // Insert after original
+        wrapper.parentNode.insertBefore(clonedWrapper, wrapper.nextSibling)
+
+        // Update stats
+        const type = wrapper.dataset.elementType
+        elementStats.total++
+        elementStats[type]++
+        updateStats()
+
+        showToast("Element duplicated successfully!")
+      }
+
+      // Delete element
+      function deleteElement(wrapper) {
+        if (confirm("Are you sure you want to delete this element?")) {
+          const type = wrapper.dataset.elementType
+
+          wrapper.remove()
+
+          // Update stats
+          elementStats.total--
+          elementStats[type]--
+          updateStats()
+
+          // Check if content area is empty
+          const contentArea = document.getElementById("contentArea")
+          if (contentArea.children.length === 0) {
+            contentArea.innerHTML =
+              '<p style="color: #6c757d; text-align: center; margin-top: 2rem;">No elements created yet. Use the controls above to create your first element.</p>'
+            contentArea.classList.remove("has-content")
+          }
+
+          showToast("Element deleted successfully!")
+        }
+      }
+
+      // Clear all elements
+      function clearAll() {
+        if (confirm("Are you sure you want to delete all elements?")) {
+          const contentArea = document.getElementById("contentArea")
+          contentArea.innerHTML =
+            '<p style="color: #6c757d; text-align: center; margin-top: 2rem;">No elements created yet. Use the controls above to create your first element.</p>'
+          contentArea.classList.remove("has-content")
+
+          // Reset stats
+          elementStats = {
+            total: 0,
+            paragraph: 0,
+            heading: 0,
+            list: 0,
+            image: 0,
+            table: 0,
+            custom: 0,
+          }
+
+          elementCounter = 0
+          updateStats()
+          showToast("All elements cleared!")
+        }
+      }
+
+      // Clear form
+      function clearForm() {
+        document.getElementById("elementContent").value = ""
+        document.getElementById("elementClass").value = ""
+        document.getElementById("elementId").value = ""
+        document.getElementById("imageUrl").value = ""
+        document.getElementById("imageAlt").value = ""
+        document.getElementById("elementType").value = "paragraph"
+        updateInputFields()
+      }
+
+      // Update statistics
+      function updateStats() {
+        document.getElementById("totalElements").textContent =
+          elementStats.total
+        document.getElementById("paragraphCount").textContent =
+          elementStats.paragraph
+        document.getElementById("headingCount").textContent =
+          elementStats.heading
+        document.getElementById("listCount").textContent = elementStats.list
+        document.getElementById("imageCount").textContent = elementStats.image
+        document.getElementById("tableCount").textContent = elementStats.table
+      }
+
+      // Show toast notification
+      function showToast(message, type = "success") {
+        const toast = document.getElementById("toast")
+        toast.textContent = message
+        toast.className = `toast ${type}`
+        toast.classList.add("show")
+
+        setTimeout(() => {
+          toast.classList.remove("show")
+        }, 3000)
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", function () {
+        updateInputFields()
+      })
+    </script>
+  </body>
+</html>

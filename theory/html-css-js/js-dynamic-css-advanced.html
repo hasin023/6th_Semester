@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Advanced CSS Manipulation System</title>
+    <style>
+      :root {
+        --primary-color: #667eea;
+        --secondary-color: #764ba2;
+        --accent-color: #ff6b6b;
+        --background-color: #f5f7fa;
+        --text-color: #333;
+        --border-color: #dee2e6;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: var(--background-color);
+        color: var(--text-color);
+        transition: all 0.3s ease;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .header {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .control-panel {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .control-section {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px var(--shadow-color);
+      }
+
+      .control-section h3 {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--border-color);
+      }
+
+      .control-group {
+        margin: 1rem 0;
+      }
+
+      .control-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: var(--text-color);
+      }
+
+      .control-group input,
+      .control-group select,
+      .control-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        font-size: 0.9rem;
+      }
+
+      .control-group input:focus,
+      .control-group select:focus,
+      .control-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+      }
+
+      .button-group {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin: 1rem 0;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-primary {
+        background: var(--primary-color);
+        color: white;
+      }
+
+      .btn-secondary {
+        background: var(--secondary-color);
+        color: white;
+      }
+
+      .btn-success {
+        background: #28a745;
+        color: white;
+      }
+
+      .btn-warning {
+        background: #ffc107;
+        color: #212529;
+      }
+
+      .btn-danger {
+        background: #dc3545;
+        color: white;
+      }
+
+      .btn-info {
+        background: #17a2b8;
+        color: white;
+      }
+
+      .demo-area {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px var(--shadow-color);
+        margin: 2rem 0;
+      }
+
+      .demo-elements {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+
+      .demo-element {
+        background: var(--primary-color);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .demo-element:hover {
+        transform: scale(1.05);
+      }
+
+      .demo-element::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .demo-element:hover::before {
+        left: 100%;
+      }
+
+      .theme-switcher {
+        display: flex;
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+
+      .theme-option {
+        padding: 0.5rem 1rem;
+        border: 2px solid var(--border-color);
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+      }
+
+      .theme-option.active {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+
+      .animation-playground {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 8px;
+        margin: 2rem 0;
+      }
+
+      .animation-target {
+        width: 100px;
+        height: 100px;
+        background: var(--accent-color);
+        border-radius: 8px;
+        margin: 2rem auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .css-code-display {
+        background: #2d3748;
+        color: #e2e8f0;
+        padding: 1rem;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        font-size: 0.9rem;
+        overflow-x: auto;
+        margin: 1rem 0;
+      }
+
+      .css-property {
+        color: #4fd1c7;
+      }
+
+      .css-value {
+        color: #fed7aa;
+      }
+
+      .css-comment {
+        color: #9ca3af;
+      }
+
+      .range-control {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .range-control input {
+        flex: 1;
+      }
+
+      .range-value {
+        min-width: 60px;
+        text-align: center;
+        font-weight: bold;
+        color: var(--primary-color);
+      }
+
+      .dark-theme {
+        --primary-color: #4fd1c7;
+        --secondary-color: #667eea;
+        --accent-color: #f093fb;
+        --background-color: #1a202c;
+        --text-color: #e2e8f0;
+        --border-color: #4a5568;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+      }
+
+      .high-contrast {
+        --primary-color: #000;
+        --secondary-color: #333;
+        --accent-color: #ff0000;
+        --background-color: #fff;
+        --text-color: #000;
+        --border-color: #000;
+        --shadow-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .colorful {
+        --primary-color: #ff6b6b;
+        --secondary-color: #4ecdc4;
+        --accent-color: #45b7d1;
+        --background-color: #ffeaa7;
+        --text-color: #2d3436;
+        --border-color: #fab1a0;
+        --shadow-color: rgba(255, 107, 107, 0.3);
+      }
+
+      /* Animation keyframes */
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-30px);
+        }
+        60% {
+          transform: translateY(-15px);
+        }
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+          transform: translateX(-10px);
+        }
+        20%,
+        40%,
+        60%,
+        80% {
+          transform: translateX(10px);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      @media (max-width: 768px) {
+        .control-panel {
+          grid-template-columns: 1fr;
+        }
+
+        .demo-elements {
+          grid-template-columns: 1fr;
+        }
+
+        .button-group {
+          flex-direction: column;
+        }
+
+        .theme-switcher {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Advanced CSS Manipulation System</h1>
+        <p>Complete toolkit for dynamic styling and theme management</p>
+      </div>
+
+      <div class="control-panel">
+        <!-- Theme Control -->
+        <div class="control-section">
+          <h3>Theme Management</h3>
+          <div class="theme-switcher">
+            <div class="theme-option active" data-theme="default">Default</div>
+            <div class="theme-option" data-theme="dark">Dark</div>
+            <div class="theme-option" data-theme="high-contrast">
+              High Contrast
+            </div>
+            <div class="theme-option" data-theme="colorful">Colorful</div>
+          </div>
+
+          <div class="control-group">
+            <label for="customPrimary">Primary Color:</label>
+            <input type="color" id="customPrimary" value="#667eea" />
+          </div>
+
+          <div class="control-group">
+            <label for="customSecondary">Secondary Color:</label>
+            <input type="color" id="customSecondary" value="#764ba2" />
+          </div>
+
+          <div class="button-group">
+            <button class="btn btn-primary" onclick="applyCustomTheme()">
+              Apply Custom
+            </button>
+            <button class="btn btn-secondary" onclick="saveTheme()">
+              Save Theme
+            </button>
+            <button class="btn btn-info" onclick="loadTheme()">
+              Load Theme
+            </button>
+          </div>
+        </div>
+
+        <!-- CSS Properties Control -->
+        <div class="control-section">
+          <h3>CSS Properties</h3>
+          <div class="control-group">
+            <label for="elementSelector">Element Selector:</label>
+            <input
+              type="text"
+              id="elementSelector"
+              placeholder=".demo-element"
+              value=".demo-element"
+            />
+          </div>
+
+          <div class="control-group">
+            <label for="cssProperty">CSS Property:</label>
+            <select id="cssProperty">
+              <option value="background-color">Background Color</option>
+              <option value="color">Text Color</option>
+              <option value="border-radius">Border Radius</option>
+              <option value="padding">Padding</option>
+              <option value="margin">Margin</option>
+              <option value="font-size">Font Size</option>
+              <option value="opacity">Opacity</option>
+              <option value="transform">Transform</option>
+              <option value="box-shadow">Box Shadow</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="cssValue">CSS Value:</label>
+            <input type="text" id="cssValue" placeholder="Enter CSS value" />
+          </div>
+
+          <div class="button-group">
+            <button class="btn btn-primary" onclick="applyCSS()">
+              Apply CSS
+            </button>
+            <button class="btn btn-warning" onclick="removeCSS()">
+              Remove CSS
+            </button>
+            <button class="btn btn-danger" onclick="resetAllStyles()">
+              Reset All
+            </button>
+          </div>
+        </div>
+
+        <!-- Animation Control -->
+        <div class="control-section">
+          <h3>Animation Control</h3>
+          <div class="control-group">
+            <label for="animationType">Animation Type:</label>
+            <select id="animationType">
+              <option value="bounce">Bounce</option>
+              <option value="rotate">Rotate</option>
+              <option value="pulse">Pulse</option>
+              <option value="shake">Shake</option>
+              <option value="fadeIn">Fade In</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="animationDuration">Duration:</label>
+            <div class="range-control">
+              <input
+                type="range"
+                id="animationDuration"
+                min="0.1"
+                max="5"
+                step="0.1"
+                value="1"
+              />
+              <span class="range-value" id="durationValue">1s</span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label for="animationIterations">Iterations:</label>
+            <div class="range-control">
+              <input
+                type="range"
+                id="animationIterations"
+                min="1"
+                max="10"
+                step="1"
+                value="1"
+              />
+              <span class="range-value" id="iterationsValue">1</span>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button class="btn btn-primary" onclick="startAnimation()">
+              Start Animation
+            </button>
+            <button class="btn btn-danger" onclick="stopAnimation()">
+              Stop Animation
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Stylesheet -->
+        <div class="control-section">
+          <h3>Dynamic Stylesheet</h3>
+          <div class="control-group">
+            <label for="cssCode">CSS Code:</label>
+            <textarea
+              id="cssCode"
+              rows="6"
+              placeholder="Enter CSS code here..."
+            ></textarea>
+          </div>
+
+          <div class="button-group">
+            <button class="btn btn-primary" onclick="addDynamicCSS()">
+              Add CSS
+            </button>
+            <button class="btn btn-warning" onclick="removeDynamicCSS()">
+              Remove CSS
+            </button>
+            <button class="btn btn-info" onclick="exportCSS()">
+              Export CSS
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Demo Area -->
+      <div class="demo-area">
+        <h2>Demo Elements</h2>
+        <div class="demo-elements" id="demoElements">
+          <div class="demo-element" data-id="1">Element 1</div>
+          <div class="demo-element" data-id="2">Element 2</div>
+          <div class="demo-element" data-id="3">Element 3</div>
+          <div class="demo-element" data-id="4">Element 4</div>
+        </div>
+
+        <div class="button-group">
+          <button class="btn btn-success" onclick="addDemoElement()">
+            Add Element
+          </button>
+          <button class="btn btn-danger" onclick="removeDemoElement()">
+            Remove Element
+          </button>
+        </div>
+      </div>
+
+      <!-- Animation Playground -->
+      <div class="animation-playground">
+        <h2>Animation Playground</h2>
+        <div class="animation-target" id="animationTarget">Click Me!</div>
+      </div>
+
+      <!-- CSS Code Display -->
+      <div class="demo-area">
+        <h2>Generated CSS</h2>
+        <div class="css-code-display" id="cssCodeDisplay">
+          <span class="css-comment">/* Generated CSS will appear here */</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Global variables
+      let dynamicStyleSheet = null
+      let elementCounter = 4
+      let currentTheme = "default"
+      let appliedStyles = new Map()
+
+      // Initialize the system
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeSystem()
+        setupEventListeners()
+      })
+
+      function initializeSystem() {
+        // Create dynamic stylesheet
+        dynamicStyleSheet = document.createElement("style")
+        dynamicStyleSheet.id = "dynamic-styles"
+        document.head.appendChild(dynamicStyleSheet)
+
+        // Initialize theme system
+        initializeThemes()
+
+        // Update displays
+        updateCSSDisplay()
+      }
+
+      function setupEventListeners() {
+        // Theme switching
+        document.querySelectorAll(".theme-option").forEach((option) => {
+          option.addEventListener("click", function () {
+            switchTheme(this.dataset.theme)
+          })
+        })
+
+        // Animation controls
+        document
+          .getElementById("animationDuration")
+          .addEventListener("input", function () {
+            document.getElementById("durationValue").textContent =
+              this.value + "s"
+          })
+
+        document
+          .getElementById("animationIterations")
+          .addEventListener("input", function () {
+            document.getElementById("iterationsValue").textContent = this.value
+          })
+
+        // CSS property change
+        document
+          .getElementById("cssProperty")
+          .addEventListener("change", function () {
+            updateValuePlaceholder()
+          })
+
+        // Animation target click
+        document
+          .getElementById("animationTarget")
+          .addEventListener("click", function () {
+            startAnimation()
+          })
+      }
+
+      // Theme Management
+      function initializeThemes() {
+        const themes = {
+          default: {
+            "--primary-color": "#667eea",
+            "--secondary-color": "#764ba2",
+            "--accent-color": "#ff6b6b",
+            "--background-color": "#f5f7fa",
+            "--text-color": "#333",
+            "--border-color": "#dee2e6",
+            "--shadow-color": "rgba(0,0,0,0.1)",
+          },
+          dark: {
+            "--primary-color": "#4fd1c7",
+            "--secondary-color": "#667eea",
+            "--accent-color": "#f093fb",
+            "--background-color": "#1a202c",
+            "--text-color": "#e2e8f0",
+            "--border-color": "#4a5568",
+            "--shadow-color": "rgba(0,0,0,0.3)",
+          },
+          "high-contrast": {
+            "--primary-color": "#000",
+            "--secondary-color": "#333",
+            "--accent-color": "#ff0000",
+            "--background-color": "#fff",
+            "--text-color": "#000",
+            "--border-color": "#000",
+            "--shadow-color": "rgba(0,0,0,0.5)",
+          },
+          colorful: {
+            "--primary-color": "#ff6b6b",
+            "--secondary-color": "#4ecdc4",
+            "--accent-color": "#45b7d1",
+            "--background-color": "#ffeaa7",
+            "--text-color": "#2d3436",
+            "--border-color": "#fab1a0",
+            "--shadow-color": "rgba(255,107,107,0.3)",
+          },
+        }
+
+        window.themes = themes
+      }
+
+      function switchTheme(themeName) {
+        currentTheme = themeName
+
+        // Update theme class
+        document.body.className =
+          themeName !== "default" ? themeName + "-theme" : ""
+
+        // Update active theme option
+        document.querySelectorAll(".theme-option").forEach((option) => {
+          option.classList.remove("active")
+        })
+        document
+          .querySelector(`[data-theme="${themeName}"]`)
+          .classList.add("active")
+
+        // Apply theme if it exists
+        if (window.themes[themeName]) {
+          Object.entries(window.themes[themeName]).forEach(
+            ([property, value]) => {
+              document.documentElement.style.setProperty(property, value)
+            }
+          )
+        }
+
+        updateCSSDisplay()
+      }
+
+      function applyCustomTheme() {
+        const primary = document.getElementById("customPrimary").value
+        const secondary = document.getElementById("customSecondary").value
+
+        document.documentElement.style.setProperty("--primary-color", primary)
+        document.documentElement.style.setProperty(
+          "--secondary-color",
+          secondary
+        )
+
+        currentTheme = "custom"
+        updateCSSDisplay()
+      }
+
+      function saveTheme() {
+        const themeData = {
+          name: currentTheme,
+          properties: {},
+        }
+
+        // Get current CSS custom properties
+        const computedStyle = getComputedStyle(document.documentElement)
+        ;[
+          "--primary-color",
+          "--secondary-color",
+          "--accent-color",
+          "--background-color",
+          "--text-color",
+          "--border-color",
+          "--shadow-color",
+        ].forEach((prop) => {
+          themeData.properties[prop] = computedStyle.getPropertyValue(prop)
+        })
+
+        localStorage.setItem("savedTheme", JSON.stringify(themeData))
+        alert("Theme saved successfully!")
+      }
+
+      function loadTheme() {
+        const savedTheme = localStorage.getItem("savedTheme")
+        if (savedTheme) {
+          const themeData = JSON.parse(savedTheme)
+
+          Object.entries(themeData.properties).forEach(([property, value]) => {
+            document.documentElement.style.setProperty(property, value)
+          })
+
+          currentTheme = themeData.name
+          updateCSSDisplay()
+          alert("Theme loaded successfully!")
+        } else {
+          alert("No saved theme found!")
+        }
+      }
+
+      // CSS Manipulation
+      function applyCSS() {
+        const selector = document.getElementById("elementSelector").value
+        const property = document.getElementById("cssProperty").value
+        const value = document.getElementById("cssValue").value
+
+        if (!selector || !property || !value) {
+          alert("Please fill in all fields")
+          return
+        }
+
+        try {
+          const elements = document.querySelectorAll(selector)
+          if (elements.length === 0) {
+            alert("No elements found with that selector")
+            return
+          }
+
+          elements.forEach((element) => {
+            element.style[property] = value
+          })
+
+          // Store applied style
+          const key = `${selector}:${property}`
+          appliedStyles.set(key, value)
+
+          updateCSSDisplay()
+          alert(
+            `Applied ${property}: ${value} to ${elements.length} element(s)`
+          )
+        } catch (error) {
+          alert("Error applying CSS: " + error.message)
+        }
+      }
+
+      function removeCSS() {
+        const selector = document.getElementById("elementSelector").value
+        const property = document.getElementById("cssProperty").value
+
+        if (!selector || !property) {
+          alert("Please specify selector and property")
+          return
+        }
+
+        try {
+          const elements = document.querySelectorAll(selector)
+          elements.forEach((element) => {
+            element.style[property] = ""
+          })
+
+          // Remove from applied styles
+          const key = `${selector}:${property}`
+          appliedStyles.delete(key)
+
+          updateCSSDisplay()
+          alert(`Removed ${property} from ${elements.length} element(s)`)
+        } catch (error) {
+          alert("Error removing CSS: " + error.message)
+        }
+      }
+
+      function resetAllStyles() {
+        if (confirm("Are you sure you want to reset all styles?")) {
+          // Reset all demo elements
+          document.querySelectorAll(".demo-element").forEach((element) => {
+            element.style.cssText = ""
+          })
+
+          // Clear applied styles
+          appliedStyles.clear()
+
+          // Remove dynamic stylesheet
+          if (dynamicStyleSheet) {
+            dynamicStyleSheet.innerHTML = ""
+          }
+
+          updateCSSDisplay()
+          alert("All styles reset!")
+        }
+      }
+
+      // Animation Control
+      function startAnimation() {
+        const target = document.getElementById("animationTarget")
+        const animationType = document.getElementById("animationType").value
+        const duration = document.getElementById("animationDuration").value
+        const iterations = document.getElementById("animationIterations").value
+
+        // Remove existing animation
+        target.style.animation = ""
+
+        // Apply new animation
+        setTimeout(() => {
+          target.style.animation = `${animationType} ${duration}s ease-in-out ${iterations}`
+        }, 10)
+
+        updateCSSDisplay()
+      }
+
+      function stopAnimation() {
+        const target = document.getElementById("animationTarget")
+        target.style.animation = ""
+        updateCSSDisplay()
+      }
+
+      // Dynamic Stylesheet Management
+      function addDynamicCSS() {
+        const cssCode = document.getElementById("cssCode").value
+
+        if (!cssCode.trim()) {
+          alert("Please enter CSS code")
+          return
+        }
+
+        try {
+          dynamicStyleSheet.innerHTML += cssCode + "\n"
+          updateCSSDisplay()
+          alert("CSS added successfully!")
+        } catch (error) {
+          alert("Error adding CSS: " + error.message)
+        }
+      }
+
+      function removeDynamicCSS() {
+        if (confirm("Remove all dynamic CSS?")) {
+          dynamicStyleSheet.innerHTML = ""
+          updateCSSDisplay()
+          alert("Dynamic CSS removed!")
+        }
+      }
+
+      function exportCSS() {
+        let cssContent = ":root {\n"
+
+        // Add CSS custom properties
+        const computedStyle = getComputedStyle(document.documentElement)
+        ;[
+          "--primary-color",
+          "--secondary-color",
+          "--accent-color",
+          "--background-color",
+          "--text-color",
+          "--border-color",
+          "--shadow-color",
+        ].forEach((prop) => {
+          cssContent += `  ${prop}: ${computedStyle.getPropertyValue(prop)};\n`
+        })
+        cssContent += "}\n\n"
+
+        // Add applied styles
+        appliedStyles.forEach((value, key) => {
+          const [selector, property] = key.split(":")
+          cssContent += `${selector} {\n  ${property}: ${value};\n}\n\n`
+        })
+
+        // Add dynamic CSS
+        if (dynamicStyleSheet.innerHTML) {
+          cssContent += "/* Dynamic CSS */\n"
+          cssContent += dynamicStyleSheet.innerHTML
+        }
+
+        // Download as file
+        const blob = new Blob([cssContent], { type: "text/css" })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement("a")
+        a.href = url
+        a.download = "generated-styles.css"
+        a.click()
+        URL.revokeObjectURL(url)
+      }
+
+      // Demo Element Management
+      function addDemoElement() {
+        const demoElements = document.getElementById("demoElements")
+        const newElement = document.createElement("div")
+        newElement.className = "demo-element fade-in"
+        newElement.textContent = `Element ${++elementCounter}`
+        newElement.dataset.id = elementCounter
+
+        demoElements.appendChild(newElement)
+        updateCSSDisplay()
+      }
+
+      function removeDemoElement() {
+        const demoElements = document.getElementById("demoElements")
+        const lastElement = demoElements.lastElementChild
+
+        if (lastElement && elementCounter > 1) {
+          lastElement.remove()
+          elementCounter--
+          updateCSSDisplay()
+        } else {
+          alert("Cannot remove the last element")
+        }
+      }
+
+      // Utility Functions
+      function updateValuePlaceholder() {
+        const property = document.getElementById("cssProperty").value
+        const valueInput = document.getElementById("cssValue")
+
+        const placeholders = {
+          "background-color": "#ff6b6b",
+          color: "#ffffff",
+          "border-radius": "10px",
+          padding: "20px",
+          margin: "10px",
+          "font-size": "18px",
+          opacity: "0.8",
+          transform: "scale(1.1)",
+          "box-shadow": "0 4px 8px rgba(0,0,0,0.2)",
+        }
+
+        valueInput.placeholder = placeholders[property] || "Enter value"
+      }
+
+      function updateCSSDisplay() {
+        const display = document.getElementById("cssCodeDisplay")
+        let cssContent = ""
+
+        // Theme variables
+        cssContent +=
+          '<span class="css-comment">/* CSS Custom Properties (Theme) */</span>\n'
+        cssContent += '<span class="css-property">:root</span> {\n'
+
+        const computedStyle = getComputedStyle(document.documentElement)
+        ;[
+          "--primary-color",
+          "--secondary-color",
+          "--accent-color",
+          "--background-color",
+          "--text-color",
+          "--border-color",
+          "--shadow-color",
+        ].forEach((prop) => {
+          const value = computedStyle.getPropertyValue(prop)
+          cssContent += `  <span class="css-property">${prop}</span>: <span class="css-value">${value}</span>;\n`
+        })
+        cssContent += "}\n\n"
+
+        // Applied styles
+        if (appliedStyles.size > 0) {
+          cssContent +=
+            '<span class="css-comment">/* Applied Styles */</span>\n'
+          appliedStyles.forEach((value, key) => {
+            const [selector, property] = key.split(":")
+            cssContent += `<span class="css-property">${selector}</span> {\n`
+            cssContent += `  <span class="css-property">${property}</span>: <span class="css-value">${value}</span>;\n`
+            cssContent += "}\n\n"
+          })
+        }
+
+        // Animation styles
+        const animationTarget = document.getElementById("animationTarget")
+        if (animationTarget.style.animation) {
+          cssContent += '<span class="css-comment">/* Animation */</span>\n'
+          cssContent +=
+            '<span class="css-property">.animation-target</span> {\n'
+          cssContent += `  <span class="css-property">animation</span>: <span class="css-value">${animationTarget.style.animation}</span>;\n`
+          cssContent += "}\n\n"
+        }
+
+        // Dynamic CSS
+        if (dynamicStyleSheet.innerHTML) {
+          cssContent += '<span class="css-comment">/* Dynamic CSS */</span>\n'
+          cssContent += dynamicStyleSheet.innerHTML.replace(/\n/g, "\n")
+        }
+
+        display.innerHTML =
+          cssContent ||
+          '<span class="css-comment">/* No CSS generated yet */</span>'
+      }
+
+      // Initialize value placeholder
+      updateValuePlaceholder()
+    </script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Contact Form</title>
+    <style>
+      form {
+        max-width: 400px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        margin: 8px 0;
+        border: 1px solid #ddd;
+      }
+      button {
+        background: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+      }
+      .error {
+        border-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <h2>Contact Us</h2>
+
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required minlength="2" />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="phone">Phone:</label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        pattern="[0-9]{10}"
+        title="Please enter 10 digits"
+      />
+
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" required minlength="10"></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Advanced Registration Form</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        padding: 20px;
+      }
+
+      .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-row {
+        display: flex;
+        gap: 15px;
+      }
+      .form-row .form-group {
+        flex: 1;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #333;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #4caf50;
+      }
+
+      input:valid {
+        border-color: #4caf50;
+      }
+      input:invalid:not(:focus):not(:placeholder-shown) {
+        border-color: #f44336;
+      }
+
+      .error-message {
+        color: #f44336;
+        font-size: 14px;
+        margin-top: 5px;
+        display: none;
+      }
+
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .checkbox-group input {
+        width: auto;
+      }
+
+      .submit-btn {
+        background: linear-gradient(135deg, #4caf50, #45a049);
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 5px;
+        font-size: 18px;
+        cursor: pointer;
+        width: 100%;
+        transition: background 0.3s;
+      }
+
+      .submit-btn:hover {
+        background: linear-gradient(135deg, #45a049, #4caf50);
+      }
+      .submit-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      .strength-meter {
+        height: 5px;
+        background: #f0f0f0;
+        border-radius: 3px;
+        margin-top: 5px;
+        overflow: hidden;
+      }
+
+      .strength-bar {
+        height: 100%;
+        width: 0%;
+        transition: width 0.3s, background-color 0.3s;
+      }
+
+      .file-upload {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        width: 100%;
+      }
+
+      .file-upload input[type="file"] {
+        position: absolute;
+        left: -9999px;
+      }
+
+      .file-upload-label {
+        display: block;
+        padding: 12px;
+        background: #f8f8f8;
+        border: 2px dashed #ddd;
+        border-radius: 5px;
+        text-align: center;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .file-upload-label:hover {
+        background: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h1>User Registration</h1>
+      <form id="registrationForm" novalidate>
+        <!-- Personal Information -->
+        <fieldset>
+          <legend>Personal Information</legend>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First Name:</label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                required
+                minlength="2"
+                maxlength="50"
+              />
+              <div class="error-message" id="firstNameError"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="lastName">Last Name:</label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                required
+                minlength="2"
+                maxlength="50"
+              />
+              <div class="error-message" id="lastNameError"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required />
+            <div class="error-message" id="emailError"></div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone Number:</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                placeholder="123-456-7890"
+                title="Format: 123-456-7890"
+              />
+              <div class="error-message" id="phoneError"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="birthdate">Date of Birth:</label>
+              <input type="date" id="birthdate" name="birthdate" required />
+              <div class="error-message" id="birthdateError"></div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Account Information -->
+        <fieldset>
+          <legend>Account Information</legend>
+
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              required
+              minlength="3"
+              maxlength="20"
+              pattern="[a-zA-Z0-9_]+"
+              title="Only letters, numbers, and underscores allowed"
+            />
+            <div class="error-message" id="usernameError"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              minlength="8"
+            />
+            <div class="strength-meter">
+              <div class="strength-bar" id="strengthBar"></div>
+            </div>
+            <div class="error-message" id="passwordError"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password:</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              required
+            />
+            <div class="error-message" id="confirmPasswordError"></div>
+          </div>
+        </fieldset>
+
+        <!-- Additional Information -->
+        <fieldset>
+          <legend>Additional Information</legend>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="country">Country:</label>
+              <select id="country" name="country" required>
+                <option value="">Select a country</option>
+                <option value="us">United States</option>
+                <option value="ca">Canada</option>
+                <option value="uk">United Kingdom</option>
+                <option value="de">Germany</option>
+                <option value="fr">France</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="experience">Experience Level:</label>
+              <input
+                type="range"
+                id="experience"
+                name="experience"
+                min="0"
+                max="10"
+                value="5"
+              />
+              <output for="experience" id="experienceOutput">5 years</output>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="website">Personal Website (Optional):</label>
+            <input
+              type="url"
+              id="website"
+              name="website"
+              placeholder="https://example.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="bio">Bio:</label>
+            <textarea
+              id="bio"
+              name="bio"
+              rows="4"
+              maxlength="500"
+              placeholder="Tell us about yourself..."
+            ></textarea>
+            <small id="bioCount">0/500 characters</small>
+          </div>
+
+          <div class="form-group">
+            <label>Profile Picture:</label>
+            <div class="file-upload">
+              <input
+                type="file"
+                id="profilePic"
+                name="profilePic"
+                accept="image/*"
+              />
+              <label for="profilePic" class="file-upload-label">
+                Choose file or drag and drop
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-group">
+              <input type="checkbox" id="newsletter" name="newsletter" />
+              <label for="newsletter">Subscribe to newsletter</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-group">
+              <input type="checkbox" id="terms" name="terms" required />
+              <label for="terms"
+                >I agree to the
+                <a href="#" target="_blank">Terms and Conditions</a></label
+              >
+            </div>
+            <div class="error-message" id="termsError"></div>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="submit-btn">Create Account</button>
+      </form>
+    </div>
+
+    <script>
+      // Custom form validation and enhancement
+      const form = document.getElementById("registrationForm")
+      const password = document.getElementById("password")
+      const confirmPassword = document.getElementById("confirmPassword")
+      const strengthBar = document.getElementById("strengthBar")
+      const experienceRange = document.getElementById("experience")
+      const experienceOutput = document.getElementById("experienceOutput")
+      const bioTextarea = document.getElementById("bio")
+      const bioCount = document.getElementById("bioCount")
+
+      // Password strength checker
+      password.addEventListener("input", function () {
+        const strength = calculatePasswordStrength(this.value)
+        updateStrengthBar(strength)
+      })
+
+      function calculatePasswordStrength(password) {
+        let strength = 0
+        if (password.length >= 8) strength += 25
+        if (/[a-z]/.test(password)) strength += 25
+        if (/[A-Z]/.test(password)) strength += 25
+        if (/[0-9]/.test(password)) strength += 25
+        if (/[^A-Za-z0-9]/.test(password)) strength += 25
+        return Math.min(strength, 100)
+      }
+
+      function updateStrengthBar(strength) {
+        strengthBar.style.width = strength + "%"
+        if (strength < 50) {
+          strengthBar.style.backgroundColor = "#f44336"
+        } else if (strength < 75) {
+          strengthBar.style.backgroundColor = "#ff9800"
+        } else {
+          strengthBar.style.backgroundColor = "#4CAF50"
+        }
+      }
+
+      // Confirm password validation
+      confirmPassword.addEventListener("input", function () {
+        if (this.value !== password.value) {
+          this.setCustomValidity("Passwords do not match")
+        } else {
+          this.setCustomValidity("")
+        }
+      })
+
+      // Experience range output
+      experienceRange.addEventListener("input", function () {
+        experienceOutput.textContent = this.value + " years"
+      })
+
+      // Bio character counter
+      bioTextarea.addEventListener("input", function () {
+        bioCount.textContent = this.value.length + "/500 characters"
+      })
+
+      // Form submission
+      form.addEventListener("submit", function (e) {
+        e.preventDefault()
+
+        if (this.checkValidity()) {
+          alert("Form submitted successfully!")
+          // Here you would typically send the data to a server
+        } else {
+          alert("Please correct the errors in the form.")
+        }
+      })
+
+      // Real-time validation
+      const inputs = form.querySelectorAll("input, select, textarea")
+      inputs.forEach((input) => {
+        input.addEventListener("blur", validateField)
+        input.addEventListener("input", clearError)
+      })
+
+      function validateField(e) {
+        const field = e.target
+        const errorElement = document.getElementById(field.name + "Error")
+
+        if (!field.validity.valid && errorElement) {
+          showError(field, errorElement)
+        }
+      }
+
+      function clearError(e) {
+        const field = e.target
+        const errorElement = document.getElementById(field.name + "Error")
+
+        if (field.validity.valid && errorElement) {
+          hideError(errorElement)
+        }
+      }
+
+      function showError(field, errorElement) {
+        let message = ""
+
+        if (field.validity.valueMissing) {
+          message = "This field is required."
+        } else if (field.validity.typeMismatch) {
+          message = "Please enter a valid " + field.type + "."
+        } else if (field.validity.tooShort) {
+          message = `Minimum length is ${field.minLength} characters.`
+        } else if (field.validity.patternMismatch) {
+          message = field.title || "Please match the required format."
+        }
+
+        errorElement.textContent = message
+        errorElement.style.display = "block"
+      }
+
+      function hideError(errorElement) {
+        errorElement.style.display = "none"
+      }
+    </script>
+  </body>
+</html>
