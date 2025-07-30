@@ -1,0 +1,30 @@
+GET http://localhost:9090/api/v1/users
+content-type: application/json
+
+###
+
+POST http://localhost:9090/api/v1/users
+content-type: application/json
+
+{
+    "name": "Old User",
+    "email": "olduser@hotmail.com",
+    "age" : 287,
+    "phone" : "0199999999"
+}
+
+###
+
+PUT http://localhost:9090/api/v1/users/688a355d504ecbeca016b225
+content-type: application/json
+
+{
+    "name": "New User"
+}
+
+###
+
+DELETE http://localhost:9090/api/v1/users/688a355d504ecbeca016b225
+content-type: application/json
+
+###

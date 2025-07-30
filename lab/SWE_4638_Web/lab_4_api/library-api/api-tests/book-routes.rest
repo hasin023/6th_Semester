@@ -1,0 +1,33 @@
+GET http://localhost:9090/api/v1/books
+content-type: application/json
+
+###
+
+POST http://localhost:9090/api/v1/books
+content-type: application/json
+
+{
+    "title": "The Rage of Rudolph",
+    "author": "Carron Build-A-Carpet",
+    "isbn" : "14737278293949239828",
+    "publishedYear" : 1956,
+    "genre" : "fantasy",
+    "availableCopies" : 23
+}
+
+###
+
+PUT http://localhost:9090/api/v1/books/68820bf61a72ac80be2f7f3a
+content-type: application/json
+
+{
+    "title": "The Rage of Rudolph Again",
+    "author": "Carron Build-A-Carpet II"
+}
+
+###
+
+DELETE http://localhost:9090/api/v1/books/68820bf61a72ac80be2f7f3a
+content-type: application/json
+
+###
