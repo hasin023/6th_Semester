@@ -1,0 +1,82 @@
+<CSPIF VERSION="0.01">
+	<CSP>
+		<NAME>Untitled</NAME>
+		<DESCRIPTION>
+			<SHORT></SHORT>
+			<DETAILED></DETAILED>
+		</DESCRIPTION>
+		<VARIABLE TYPE="Integer">
+			<NAME>Ali</NAME>
+			<VALUE>1</VALUE>
+			<VALUE>2</VALUE>
+			<VALUE>3</VALUE>
+			<PROPERTY>position = (7083.0, 5111.0)</PROPERTY>
+		</VARIABLE>
+		<VARIABLE TYPE="Integer">
+			<NAME>Sristy</NAME>
+			<VALUE>1</VALUE>
+			<VALUE>2</VALUE>
+			<VALUE>3</VALUE>
+			<PROPERTY>position = (7470.0, 5114.0)</PROPERTY>
+		</VARIABLE>
+		<VARIABLE TYPE="Integer">
+			<NAME>Maliha</NAME>
+			<VALUE>1</VALUE>
+			<VALUE>2</VALUE>
+			<VALUE>3</VALUE>
+			<PROPERTY>position = (7102.0, 5380.0)</PROPERTY>
+		</VARIABLE>
+		<VARIABLE TYPE="Integer">
+			<NAME>Rafid</NAME>
+			<VALUE>1</VALUE>
+			<VALUE>2</VALUE>
+			<VALUE>3</VALUE>
+			<PROPERTY>position = (7466.0, 5378.0)</PROPERTY>
+		</VARIABLE>
+		<CONSTRAINT TYPE="Custom">
+			<CUSTOMNAME>Ali != Sristy</CUSTOMNAME>
+			<GIVEN>Ali</GIVEN>
+			<GIVEN>Sristy</GIVEN>
+			<TABLE>
+				F T T T F T T T F
+			</TABLE>
+			<PROPERTY>position = (7320.5, 5112.0)</PROPERTY>
+		</CONSTRAINT>
+		<CONSTRAINT TYPE="Custom">
+			<CUSTOMNAME>Same == 2</CUSTOMNAME>
+			<GIVEN>Ali</GIVEN>
+			<GIVEN>Maliha</GIVEN>
+			<TABLE>
+				F F F F T F F F F
+			</TABLE>
+			<PROPERTY>position = (7051.0, 5241.5)</PROPERTY>
+		</CONSTRAINT>
+		<CONSTRAINT TYPE="Custom">
+			<CUSTOMNAME>Loner</CUSTOMNAME>
+			<GIVEN>Rafid</GIVEN>
+			<GIVEN>Sristy</GIVEN>
+			<TABLE>
+				F T T T F T T T F
+			</TABLE>
+			<PROPERTY>position = (7467.0, 5295.5)</PROPERTY>
+		</CONSTRAINT>
+		<CONSTRAINT TYPE="Custom">
+			<CUSTOMNAME>Loner</CUSTOMNAME>
+			<GIVEN>Rafid</GIVEN>
+			<GIVEN>Ali</GIVEN>
+			<TABLE>
+				F T T T F T T T F
+			</TABLE>
+			<PROPERTY>position = (7391.5, 5309.5)</PROPERTY>
+		</CONSTRAINT>
+		<CONSTRAINT TYPE="Custom">
+			<CUSTOMNAME>Higher Loner</CUSTOMNAME>
+			<GIVEN>Rafid</GIVEN>
+			<GIVEN>Maliha</GIVEN>
+			<TABLE>
+				F F F T F F T T F
+			</TABLE>
+			<PROPERTY>position = (7365.5, 5381.0)</PROPERTY>
+		</CONSTRAINT>
+	</CSP>
+</CSPIF>

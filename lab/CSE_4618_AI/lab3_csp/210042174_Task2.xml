@@ -1,0 +1,113 @@
+<CSPIF VERSION="0.01">
+	<CSP>
+		<NAME>Untitled</NAME>
+		<DESCRIPTION>
+			<SHORT></SHORT>
+			<DETAILED></DETAILED>
+		</DESCRIPTION>
+
+		<VARIABLE TYPE="String">
+			<NAME>Zahid</NAME>
+			<VALUE>s</VALUE>
+			<VALUE>b</VALUE>
+			<VALUE>k</VALUE>
+			<VALUE>p</VALUE>
+			<PROPERTY>position="(7135.0,5117.0)"</PROPERTY>
+		</VARIABLE>
+
+		<VARIABLE TYPE="String">
+			<NAME>Ishrak</NAME>
+			<VALUE>s</VALUE>
+			<VALUE>b</VALUE>
+			<VALUE>k</VALUE>
+			<VALUE>p</VALUE>
+			<PROPERTY>position="(7446.0,5094.0)"</PROPERTY>
+		</VARIABLE>
+
+		<VARIABLE TYPE="String">
+			<NAME>Farabi</NAME>
+			<VALUE>s</VALUE>
+			<VALUE>b</VALUE>
+			<VALUE>k</VALUE>
+			<VALUE>p</VALUE>
+			<PROPERTY>position="(7079.0,5285.0)"</PROPERTY>
+		</VARIABLE>
+
+		<VARIABLE TYPE="String">
+			<NAME>Nafisa</NAME>
+			<VALUE>s</VALUE>
+			<VALUE>b</VALUE>
+			<VALUE>k</VALUE>
+			<VALUE>p</VALUE>
+			<PROPERTY>position="(7433.0,5248.0)"</PROPERTY>
+		</VARIABLE>
+
+		<CONSTRAINT TYPE="Custom">
+			<CUSTOMNAME>Zahid == Ishrak</CUSTOMNAME>
+			<GIVEN>Zahid</GIVEN>
+			<GIVEN>Ishrak</GIVEN>
+			<TABLE>
+				T F F F F T F F F F T F F F F T
+			</TABLE>
+			<PROPERTY>position="(7258.0,5045.0)"</PROPERTY>
+		</CONSTRAINT>
+
+		<CONSTRAINT TYPE="Custom">
+			<CUSTOMNAME>Farabi != Ishrak</CUSTOMNAME>
+			<GIVEN>Farabi</GIVEN>
+			<GIVEN>Ishrak</GIVEN>
+			<TABLE>
+				F T T T T F T T T T F T T T T F
+			</TABLE>
+			<PROPERTY>position="(7320.5,5154.5)"</PROPERTY>
+		</CONSTRAINT>
+
+		<CONSTRAINT TYPE="Custom">
+			<CUSTOMNAME>!= Paratha</CUSTOMNAME>
+			<GIVEN>Zahid</GIVEN>
+			<TABLE>
+				T T T F
+			</TABLE>
+			<PROPERTY>position="(7098.0,5047.0)"</PROPERTY>
+		</CONSTRAINT>
+
+		<CONSTRAINT TYPE="Custom">
+			<CUSTOMNAME>!= Kashmiri Naan</CUSTOMNAME>
+			<GIVEN>Nafisa</GIVEN>
+			<TABLE>
+				T T F T
+			</TABLE>
+			<PROPERTY>position="(7502.0,5367.0)"</PROPERTY>
+		</CONSTRAINT>
+
+		<CONSTRAINT TYPE="Custom">
+			<CUSTOMNAME>Rice &lt;3</CUSTOMNAME>
+			<GIVEN>Farabi</GIVEN>
+			<TABLE>
+				T T F F
+			</TABLE>
+			<PROPERTY>position="(7043.0,5381.0)"</PROPERTY>
+		</CONSTRAINT>
+
+		<CONSTRAINT TYPE="Custom">
+			<CUSTOMNAME>Zahid != Farabi</CUSTOMNAME>
+			<GIVEN>Zahid</GIVEN>
+			<GIVEN>Farabi</GIVEN>
+			<TABLE>
+				F T T T T F T T T T F T T T T F
+			</TABLE>
+			<PROPERTY>position="(7082.0,5200.0)"</PROPERTY>
+		</CONSTRAINT>
+
+		<CONSTRAINT TYPE="Custom">
+			<CUSTOMNAME>Zahid != Nafisa</CUSTOMNAME>
+			<GIVEN>Zahid</GIVEN>
+			<GIVEN>Nafisa</GIVEN>
+			<TABLE>
+				F T T T T F T T T T F T T T T F
+			</TABLE>
+			<PROPERTY>position="(7304.0,5331.5)"</PROPERTY>
+		</CONSTRAINT>
+
+	</CSP>
+</CSPIF>
